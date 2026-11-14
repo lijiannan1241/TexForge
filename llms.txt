@@ -22,26 +22,55 @@
 - Asset audits: naming, dimension, duplicate and missing-pair checks with CSV/JSON reports
 - Automation: texforge-cli shares presets with the GUI for scripts and CI
 
+## Workflow
+
+1. Import and scan — Drop folders or individual images into a workspace. TexForge scans subdirectories recursively and filters by extension, naming rules and size range, so you see exactly what is about to be processed.
+2. Configure actions and parameters — Stack actions for batch work, or set layout, padding, trimming and target format for atlases. Save the result as a preset (JSON) — the smallest reusable unit a team can share.
+3. Preview and validate — See the result before exporting. Atlases show a layout preview and occupancy, batch runs offer a per-image comparison, and constraint checks flag oversized textures, inconsistent padding and empty regions early.
+4. Export and report — One run produces images, descriptors and a result report. Atlas image and descriptor share a name and folder, so the engine resolves them immediately; the report records what happened to every image.
+
 ## Frequently asked questions
 
 - Q: What is TexForge?
   A: TexForge is a Windows desktop tool that puts batch image processing and texture atlas packing into one pipeline. It ships both a GUI and a CLI, aimed at indie developers, artists and technical artists.
+- Q: How is it different from Photoshop actions or ImageMagick scripts?
+  A: Photoshop actions live inside one application and ImageMagick means hand-assembling command lines. TexForge makes action sequences, atlas parameters and engine exports configurable, saves them as presets shared by GUI and CLI, and ships atlas descriptors and engine folder planning that generic image tools do not provide.
+- Q: Who is it for?
+  A: Indie developers, 2D / 2.5D artists, technical artists, outsourcing reviewers and small teams shipping to several platforms.
+- Q: Is the UI available in Chinese?
+  A: Yes. Pick Chinese or English on first run and switch later in settings; both interfaces expose the same features.
 - Q: Which image formats are supported?
-  A: Common raster formats can be read and written, including PNG, JPEG, WebP, BMP, TIFF, TGA and DDS, with optional extended codecs. The atlas side supports 69 descriptor formats.
+  A: Common raster formats can be read and written, including PNG, JPEG, WebP, BMP, TIFF, TGA and DDS, with optional extended codecs.
+- Q: What are the 69 atlas formats?
+  A: Descriptor-plus-image combinations for Unity, Godot, Unreal, Cocos2d, Phaser 2/3, PixiJS, Spine, LibGDX, SpriteKit, Starling, Egret, LayaAir and WeChat mini games, plus generic JSON / XML / plist / CSS / CSV.
 - Q: Which game engines are supported?
-  A: Built-in folder planning and metadata export for Unity, Unreal, Godot and Cocos — 24 engine data formats in total — plus Phaser, PixiJS, Spine, LibGDX, SpriteKit, Egret, LayaAir and custom templates.
-- Q: Does it collect my data?
-  A: No. TexForge runs entirely on your machine. It does not upload images, send telemetry, or include advertising or tracking SDKs. See the privacy policy for details.
-- Q: Does it need an internet connection?
-  A: No. After installation it works offline; all processing happens locally.
-- Q: What is the difference between the GUI and the CLI?
-  A: They share the same pipeline and presets. The GUI is for tuning and previewing; the CLI (texforge-cli) is for batch scripts, build servers and CI automation.
+  A: Built-in folder planning and metadata export for Unity, Unreal, Godot and Cocos — 24 engine data formats in total — with custom templates for anything else.
+- Q: Can I use custom engine templates?
+  A: Yes. Fields and nesting can be trimmed to fit in-house engines and internal conventions.
+- Q: Does it support HTML5 runtimes such as WeChat mini games?
+  A: Yes. Atlas descriptors and metadata export directly for WeChat mini games, Cocos, Phaser and PixiJS runtimes.
 - Q: Does atlas packing support padding, trimming and power-of-two?
-  A: Yes. You can set padding and edge extrusion, trim by alpha bounds, rotate small sprites, and validate POT / NPOT and maximum size limits.
+  A: Yes. Set padding and edge extrusion, trim by alpha bounds, rotate small sprites, and validate POT / NPOT and maximum size limits.
+- Q: Can the normal map Y axis be switched?
+  A: Yes. Switch between OpenGL and DirectX conventions, adjust strength, and keep normal maps on the linear data path.
+- Q: How do mipmaps and platform size checks work?
+  A: Power-of-two mip chains are generated, then validated against mobile and desktop size limits; oversized textures are flagged before export.
 - Q: How many images can it process?
   A: There is no hard limit; throughput depends on disk space, memory and image dimensions. For large jobs, validate the preset on a small sample first.
+- Q: Where are nine-patch and sprite splitting?
+  A: In the Atlas toolbox workspace: split sprite sheets by grid or transparent gutters, or slice nine-patch borders, then feed the output into batch actions or the atlas packer.
 - Q: How do I install and update?
   A: Install from Microsoft Store to receive automatic updates. The store listing shows the current version and system requirements.
+- Q: What are the system requirements?
+  A: Windows 10 / Windows 11 (x64). 8 GB RAM or more is recommended for large batches; disk space depends on the image set.
+- Q: Does it need an internet connection?
+  A: No. After installation it works offline; all processing happens locally.
+- Q: Does it collect my data?
+  A: No. TexForge runs entirely on your machine. It does not upload images, send telemetry, or include advertising or tracking SDKs. See the privacy policy for details.
+- Q: What is the difference between the GUI and the CLI?
+  A: They share the same pipeline and presets. The GUI is for tuning and previewing; the CLI (texforge-cli) is for batch scripts, build servers and CI automation.
+- Q: Can it run in CI?
+  A: Yes. The CLI reads the same preset files as the GUI, reports success through exit codes, and writes result reports you can archive as build artifacts.
 - Q: How do I report a problem?
   A: Email cdljn2022@gmail.com or open an issue on the GitHub repository. Include the version, steps to reproduce and the result report to speed things up.
 
@@ -50,6 +79,8 @@
 - Chinese home: https://lijiannan1241.github.io/TexForge/zh/
 - English home: https://lijiannan1241.github.io/TexForge/en/
 - Features: https://lijiannan1241.github.io/TexForge/en/features.html
+- Trailer (44s demo, chapters and transcript): https://lijiannan1241.github.io/TexForge/en/trailer.html
+- How it works: https://lijiannan1241.github.io/TexForge/en/how-it-works.html
 - FAQ: https://lijiannan1241.github.io/TexForge/en/faq.html
 - Download: https://lijiannan1241.github.io/TexForge/en/download.html
 - Blog index: https://lijiannan1241.github.io/TexForge/en/blog/index.html

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How TexForge works — four stages from source art to engine assets</title>
+<meta name="description" content="The TexForge workflow: import and scan, configure actions and atlas parameters, preview and validate, export with reports. One core drives both the GUI and the CLI, with reusable presets and verifiable results.">
+<meta name="keywords" content="TexForge workflow, import, presets, validation, export, reports">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/how-it-works.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/how-it-works.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/how-it-works.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/how-it-works.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="How TexForge works — four stages from source art to engine assets">
+<meta property="og:description" content="The TexForge workflow: import and scan, configure actions and atlas parameters, preview and validate, export with reports. One core drives both the GUI and the CLI, with reusable presets and verifiable results.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/how-it-works.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How TexForge works — four stages from source art to engine assets">
+<meta name="twitter:description" content="The TexForge workflow: import and scan, configure actions and atlas parameters, preview and validate, export with reports. One core drives both the GUI and the CLI, with reusable presets and verifiable results.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/icon-300.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"How it works — TexForge","description":"The TexForge workflow: import and scan, configure actions and atlas parameters, preview and validate, export with reports. One core drives both the GUI and the CLI, with reusable presets and verifiable results.","inLanguage":"en","totalTime":"PT10M","tool":[{"@type":"HowToTool","name":"TexForge"}],"step":[{"@type":"HowToStep","position":1,"name":"Import and scan","text":"Drop folders or individual images into a workspace. TexForge scans subdirectories recursively and filters by extension, naming rules and size range, so you see exactly what is about to be processed.","url":"https://lijiannan1241.github.io/TexForge/en/how-it-works.html#s01"},{"@type":"HowToStep","position":2,"name":"Configure actions and parameters","text":"Stack actions for batch work, or set layout, padding, trimming and target format for atlases. Save the result as a preset (JSON) — the smallest reusable unit a team can share.","url":"https://lijiannan1241.github.io/TexForge/en/how-it-works.html#s02"},{"@type":"HowToStep","position":3,"name":"Preview and validate","text":"See the result before exporting. Atlases show a layout preview and occupancy, batch runs offer a per-image comparison, and constraint checks flag oversized textures, inconsistent padding and empty regions early.","url":"https://lijiannan1241.github.io/TexForge/en/how-it-works.html#s03"},{"@type":"HowToStep","position":4,"name":"Export and report","text":"One run produces images, descriptors and a result report. Atlas image and descriptor share a name and folder, so the engine resolves them immediately; the report records what happened to every image.","url":"https://lijiannan1241.github.io/TexForge/en/how-it-works.html#s04"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"How it works","item":"https://lijiannan1241.github.io/TexForge/en/how-it-works.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../en/index.html"><img src="../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../en/index.html">Home</a><a href="../en/features.html">Features</a><a href="../en/trailer.html">Trailer</a><a href="../en/how-it-works.html" aria-current="page">How it works</a><a href="../en/faq.html">FAQ</a><a href="../en/blog/index.html">Blog</a><a href="../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../zh/how-it-works.html">中文</a><a href="../en/how-it-works.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="index.html">Home</a> / How it works</div>
+  <h1>How it works</h1><p>Four stages, one pipeline. Each stage can be checked on its own, and the whole chain can be handed to a script — that is what makes it usable in production over time.</p>
+</div></div>
+<section class="tight"><div class="container">
+  <div class="pipeline"><h2>How data flows</h2><p>Sources enter one processing chain: action sequence or atlas algorithm, then constraint validation, then format export and reporting. The GUI and the CLI are just two doors into that chain.</p>
+  <div class="pipe-row"><span class="pipe-node">Sources / folders</span><span class="arrow">→</span><span class="pipe-node">Actions · atlas params</span><span class="arrow">→</span><span class="pipe-node">Validation</span><span class="arrow">→</span><span class="pipe-node">Export · descriptors</span><span class="arrow">→</span><span class="pipe-node">Result report</span></div></div>
+</div></section>
+<section><div class="container stages"><div class="stage" id="s01">
+  <div class="stage-copy">
+    <span class="stage-n">01</span>
+    <h2>Import and scan</h2>
+    <p>Drop folders or individual images into a workspace. TexForge scans subdirectories recursively and filters by extension, naming rules and size range, so you see exactly what is about to be processed.</p>
+    <ul class="stage-list"><li>Mix several folders, including nested subdirectories</li><li>Filter by extension, wildcard or regular expression</li><li>Immediate counts, total size and dimension distribution</li><li>The scan stage is read-only; sources are untouched</li></ul>
+  </div>
+  <figure class="stage-media"><img src="../assets/img/shot-batch.png" alt="Batch workspace: file list, action stack and run status" loading="lazy">
+    <figcaption>Batch workspace: file list, action stack and run status</figcaption></figure>
+</div><div class="stage reverse" id="s02">
+  <div class="stage-copy">
+    <span class="stage-n">02</span>
+    <h2>Configure actions and parameters</h2>
+    <p>Stack actions for batch work, or set layout, padding, trimming and target format for atlases. Save the result as a preset (JSON) — the smallest reusable unit a team can share.</p>
+    <ul class="stage-list"><li>113 actions applied in order, each output feeding the next</li><li>Atlas parameters: padding, extrusion, trimming, rotation, POT constraints</li><li>Presets travel with the project and can live in version control</li><li>The same preset is read by both the GUI and the CLI</li></ul>
+  </div>
+  <figure class="stage-media"><img src="../assets/img/shot-toolbox.png" alt="Atlas toolbox: nine-patch slicing, sprite splitting and validation" loading="lazy">
+    <figcaption>Atlas toolbox: nine-patch slicing, sprite splitting and validation</figcaption></figure>
+</div><div class="stage" id="s03">
+  <div class="stage-copy">
+    <span class="stage-n">03</span>
+    <h2>Preview and validate</h2>
+    <p>See the result before exporting. Atlases show a layout preview and occupancy, batch runs offer a per-image comparison, and constraint checks flag oversized textures, inconsistent padding and empty regions early.</p>
+    <ul class="stage-list"><li>Atlas layout preview with sprite positions and occupancy</li><li>POT / NPOT, maximum size and padding consistency checks</li><li>Normal maps stay on the linear data path</li><li>Violations are flagged before export, not after an engine error</li></ul>
+  </div>
+  <figure class="stage-media"><img src="../assets/img/shot-atlas.png" alt="Atlas workspace: layout preview and format selection" loading="lazy">
+    <figcaption>Atlas workspace: layout preview and format selection</figcaption></figure>
+</div><div class="stage reverse" id="s04">
+  <div class="stage-copy">
+    <span class="stage-n">04</span>
+    <h2>Export and report</h2>
+    <p>One run produces images, descriptors and a result report. Atlas image and descriptor share a name and folder, so the engine resolves them immediately; the report records what happened to every image.</p>
+    <ul class="stage-list"><li>24 engine data formats written into planned folder trees</li><li>Atlas image and descriptor generated as a matched pair</li><li>CSV / JSON reports: successes, failures, timings and size deltas</li><li>Retry failed items only, never the whole batch</li></ul>
+  </div>
+  <figure class="stage-media"><img src="../assets/img/shot-tools.png" alt="Game pixel tools: normal maps, channel packing and mipmaps" loading="lazy">
+    <figcaption>Game pixel tools: normal maps, channel packing and mipmaps</figcaption></figure>
+</div></div></section>
+<section class="alt"><div class="container">
+  <div class="section-head"><h2>One core, two entry points</h2><p>The UI is not a separate implementation. GUI and CLI call the same action registry, atlas packer, exporters and report format, so what you tune in the interface is what runs on a server.</p></div>
+  <div class="grid-3"><div class="card"><h3>One action registry</h3><p>Both entry points read the same action definitions and parameter validation, so a preset cannot work in the GUI and fail in a script.</p></div><div class="card"><h3>One preset file</h3><p>A preset is JSON. Commit it, and anyone who checks out the project reproduces the same asset release.</p></div><div class="card"><h3>One report format</h3><p>Both produce the same report structure, parsed and archived by the same scripts.</p></div></div>
+</div></section>
+<section><div class="container">
+  <div class="prose"><h2>Command line and CI</h2><p>Hand the preset to texforge-cli to reproduce the same result in a script, on a build server or in CI. Exit codes carry pass/fail; reports are archived as build artifacts.</p>
+  <pre><code># Run a batch with a preset saved in the GUI
+texforge-cli batch --preset ui-icons.json --input ./art/ui --output ./build/ui
+
+# Pack an atlas and export the engine descriptor plus a report
+texforge-cli atlas --preset atlas-ui.json --format unity --report build/report.json</code></pre>
+  <ul><li>Presets, actions and parameters match the GUI exactly — no second configuration</li><li>A non-zero exit code means some items failed, so CI can gate on it</li><li>Reports archive as build artifacts, so any release can be audited later</li></ul></div>
+</div></section>
+<section class="alt"><div class="container">
+  <div class="section-head"><h2>Why it is split this way</h2></div>
+  <div class="grid-3"><div class="card"><h3>Every stage is checkable</h3><p>Import, configure, validate and export are decoupled, so a problem points at a stage instead of hiding inside a black-box script.</p></div><div class="card"><h3>Configuration is separated from execution</h3><p>Configuration becomes a preset; execution is the GUI or the CLI. The same spec can be run by a person, a machine, or whoever joins next.</p></div><div class="card"><h3>Results are verifiable</h3><p>The report records what happened to each image. A release is documented, not assumed.</p></div></div>
+</div></section>
+<section><div class="container">
+  <div class="prose"><h2>A pre-release pass worth running</h2><ol><li>Validate the preset on 5 to 10 representative images first: dimensions, naming, file size</li><li>Confirm atlas descriptor and image share a name and folder, with matching coordinates</li><li>Export normal maps as linear data with the Y axis matching your engine</li><li>Run a platform size check and confirm no texture exceeds the limit</li><li>Archive the report and preset as the record of this asset release</li></ol></div>
+</div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../en/index.html"><img src="../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../en/index.html">Home</a>
+        <a href="../en/features.html">Features</a>
+        <a href="../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../en/blog/index.html">Blog</a>
+        <a href="../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

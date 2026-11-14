@@ -309,6 +309,24 @@ def ld_crumbs(lang: str, pairs: list[tuple[str, str]]) -> dict:
     }
 
 
+def ld_howto(lang: str) -> dict:
+    d = C.HOWITWORKS[lang]
+    return {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": d["h1"] + " — TexForge",
+        "description": d["desc"],
+        "inLanguage": HTML_LANG[lang],
+        "totalTime": "PT10M",
+        "tool": [{"@type": "HowToTool", "name": "TexForge"}],
+        "step": [
+            {"@type": "HowToStep", "position": i + 1, "name": s["title"],
+             "text": s["body"], "url": url_for(lang, "how-it-works.html") + "#s" + s["n"]}
+            for i, s in enumerate(d["stages"])
+        ],
+    }
+
+
 # ---------------------------------------------------------------- pages
 def build_home(lang: str) -> str:
     d = C.HOME[lang]
@@ -340,6 +358,7 @@ def build_home(lang: str) -> str:
       <p class="lead">{d['lead']}</p>
       <div class="hero-cta">
         {badge(lang, 'lg')}
+        <a class="btn btn-ghost" href="trailer.html">▶ {C.TRAILER[lang]['watch']}</a>
         <a class="btn btn-ghost" href="features.html">{d['cta_secondary']}</a>
       </div>
       <div class="hero-stats">{stats}</div>
@@ -366,9 +385,21 @@ def build_home(lang: str) -> str:
   <div class="container">
     <div class="section-head"><h2>{d['steps_title']}</h2></div>
     <div class="grid-3">{steps}</div>
+    <p class="center-more"><a class="btn btn-outline" href="how-it-works.html">{'看完整流程' if lang == 'zh' else 'See the full workflow'} →</a></p>
   </div>
 </section>
 <section class="alt">
+  <div class="container">
+    <div class="section-head"><h2>{'44 秒看完软件' if lang == 'zh' else 'See it in 44 seconds'}</h2>
+      <p>{'真实界面演示，可按章节跳转，附完整文字稿。' if lang == 'zh' else 'A walkthrough of the real UI, with chapters and a full transcript.'}</p></div>
+    <a class="teaser" href="trailer.html">
+      <img src="../assets/video/trailer-{lang}-poster.jpg" alt="{C.TRAILER[lang]['h1']}" width="1920" height="1080" loading="lazy">
+      <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="teaser-cap">{'播放预告片' if lang == 'zh' else 'Play the trailer'} · {C.TRAILER[lang]['duration']}</span>
+    </a>
+  </div>
+</section>
+<section>
   <div class="container">
     <div class="section-head"><h2>{d['shots_title']}</h2></div>
     <div class="shots">{shots}</div>
@@ -376,24 +407,87 @@ def build_home(lang: str) -> str:
 </section>"""
 
 
+RELATED_POSTS = [
+    "batch-image-processing-guide",
+    "texture-atlas-packing",
+    "engine-export-formats",
+    "normal-map-channel-packing",
+    "mipmap-and-platform-limits",
+    "sprite-sheet-and-nine-patch",
+    "exif-xmp-iptc-workflow",
+    "indie-game-asset-pipeline",
+]
+
+
+def post_by_slug(slug: str) -> dict | None:
+    return next((p for p in C.POSTS if p["slug"] == slug), None)
+
+
 def build_features(lang: str) -> str:
     d = C.FEATURES[lang]
+    chips = "".join(f'<a class="chip" href="#{i}">{label}</a>' for i, label in d["jump"])
+    specs = "".join(
+        f'<div class="spec"><b>{n}</b><span>{label}</span></div>' for n, label in d["specs"]
+    )
     secs = []
     for i, (title, paras) in enumerate(d["sections"], 1):
         body = "".join(f"<p>{p}</p>" for p in paras)
-        secs.append(f'<h2 id="f{i}">{title}</h2>{body}')
+        more = ""
+        if i <= len(RELATED_POSTS):
+            p = post_by_slug(RELATED_POSTS[i - 1])
+            if p:
+                pt = p["title_zh"] if lang == "zh" else p["title_en"]
+                lbl = "深入阅读" if lang == "zh" else "Read more"
+                more = (f'<p class="more"><a href="blog/{p["slug"]}.html">'
+                        f'{lbl}：{pt} →</a></p>')
+        secs.append(f'<article class="feat-block"><h2 id="f{i}">{title}</h2>{body}{more}</article>')
+    head = "".join(f"<th>{x}</th>" for x in d["matrix_head"])
+    rows = "".join(
+        "<tr>" + "".join(f"<td>{c}</td>" for c in row) + "</tr>" for row in d["matrix"]
+    )
+    cases = "".join(
+        f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["use_cases"]
+    )
     return f"""<div class="page-head"><div class="container">
   <div class="crumbs"><a href="index.html">{'首页' if lang == 'zh' else 'Home'}</a> / {'功能' if lang == 'zh' else 'Features'}</div>
   <h1>{d['h1']}</h1><p>{d['lead']}</p>
+  <div class="jump">{chips}</div>
 </div></div>
-<section><div class="container prose">{''.join(secs)}</div></section>"""
+<section class="tight"><div class="container"><div class="specs">{specs}</div></div></section>
+<section><div class="container"><div class="prose">{''.join(secs)}</div></div></section>
+<section class="alt"><div class="container">
+  <div class="section-head"><h2>{'能力对照' if lang == 'zh' else 'Capability at a glance'}</h2>
+  <p>{'同一件事，用配置解决而不是用脚本堆出来。' if lang == 'zh' else 'The same job, solved with configuration instead of a pile of scripts.'}</p></div>
+  <div class="table-wrap"><table class="matrix"><thead><tr>{head}</tr></thead><tbody>{rows}</tbody></table></div>
+</div></section>
+<section><div class="container">
+  <div class="section-head"><h2>{d['use_cases_title']}</h2></div>
+  <div class="grid-2">{cases}</div>
+</div></section>"""
+
+
+def faq_items(lang: str) -> list[tuple[str, str]]:
+    """Flatten the grouped FAQ into (question, answer) pairs."""
+    out: list[tuple[str, str]] = []
+    for g in C.FAQ[lang]["groups"]:
+        out.extend(g["items"])
+    return out
 
 
 def build_faq(lang: str) -> str:
-    items = C.FAQ[lang]
-    rows = "".join(
-        f'<div class="faq-item"><h3>{q}</h3><p>{a}</p></div>' for q, a in items
+    groups = C.FAQ[lang]["groups"]
+    items = faq_items(lang)
+    chips = "".join(
+        f'<a class="chip" href="#g{i}">{g["title"]}<span>{len(g["items"])}</span></a>'
+        for i, g in enumerate(groups, 1)
     )
+    body = []
+    for i, g in enumerate(groups, 1):
+        qs = "".join(
+            f'<details class="qa"><summary>{q}</summary><div class="a"><p>{a}</p></div></details>'
+            for q, a in g["items"]
+        )
+        body.append(f'<div class="faq-group" id="g{i}"><h2>{g["title"]}</h2>{qs}</div>')
     ld = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -404,18 +498,28 @@ def build_faq(lang: str) -> str:
             for q, a in items
         ],
     }
-    head_txt = ("常见问答" if lang == "zh" else "Frequently asked questions")
-    lead = ("关于功能、格式、引擎支持、隐私与安装的高频问题。"
+    head_txt = "常见问答" if lang == "zh" else "Frequently asked questions"
+    lead = (f"关于功能、格式、引擎支持、隐私与安装的 {len(items)} 个问题，按主题分为 {len(groups)} 组。"
             if lang == "zh" else
-            "Common questions about features, formats, engine support, privacy and installation.")
+            f"{len(items)} questions about features, formats, engine support, privacy and installation, grouped into {len(groups)} topics.")
+    more = ("没找到答案？" if lang == "zh" else "Still stuck?")
+    more_text = ("发邮件到 {0}，或在 GitHub 仓库提交 issue。"
+                 .format(S["email"]) if lang == "zh" else
+                 "Email {0} or open an issue on the GitHub repository.".format(S["email"]))
     return f"""<div class="page-head"><div class="container">
   <div class="crumbs"><a href="index.html">{'首页' if lang == 'zh' else 'Home'}</a> / FAQ</div>
   <h1>{head_txt}</h1><p>{lead}</p>
 </div></div>
-<section><div class="container prose">
+<section><div class="container">
+<div class="faq-nav">{chips}</div>
+<div class="prose">
 <div id="privacy" class="callout"><h3>{'隐私说明' if lang == 'zh' else 'Privacy'}</h3>
 <p>{'TexForge 完全在本机运行，不收集、不上传任何个人信息与图片内容；不包含遥测、广告或第三方追踪 SDK。' if lang == 'zh' else 'TexForge runs entirely on your machine. It does not collect or upload personal information or image content, and contains no telemetry, advertising or third-party tracking SDKs.'}</p></div>
-{rows}
+{''.join(body)}
+<div class="contact-card"><h3>{more}</h3><p>{more_text}</p>
+<div class="contact-actions"><a class="btn btn-primary" href="mailto:{S['email']}">{'写邮件' if lang == 'zh' else 'Send email'}</a>
+<a class="btn btn-outline" href="{S['repo']}/issues" target="_blank" rel="noopener">{'提交 issue' if lang == 'zh' else 'Open an issue'}</a></div></div>
+</div>
 </div></section>""", [ld]
 
 
@@ -438,6 +542,214 @@ def build_download(lang: str) -> str:
     <div class="card"><h3>{d['cli_title']}</h3><p>{d['cli_text']}</p>
       <pre><code>texforge-cli --help</code></pre></div>
   </div>
+</div></section>"""
+
+
+def _mmss(sec: int) -> str:
+    return f"{sec // 60:02d}:{sec % 60:02d}"
+
+
+def _abs(rel: str) -> str:
+    return BASE + rel.replace("../", "")
+
+
+def build_trailer(lang: str) -> str:
+    d = C.TRAILER[lang]
+    page = url_for(lang, "trailer.html")
+    chapters = "".join(
+        f'<li><button class="chapter" type="button" data-t="{sec}">'
+        f'<span class="tc">{_mmss(sec)}</span>'
+        f'<span class="ch-body"><b>{label}</b><em>{desc}</em></span></button></li>'
+        for sec, label, desc in d["chapters"]
+    )
+    highs = "".join(
+        f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["highlights"]
+    )
+    transcript = "".join(f"<p>{p}</p>" for p in d["transcript"])
+    cap_label = "中文" if lang == "zh" else "English"
+    total = d["chapters"][-1][0] + 6
+    video_file = ROOT / "assets" / "video" / f"trailer-{lang}.mp4"
+    has_video = video_file.exists()
+
+    if has_video:
+        stage = f"""<video id="trailer" controls preload="metadata" playsinline
+        poster="{d['poster']}" width="{d['width']}" height="{d['height']}">
+      <source src="{d['video']}" type="video/mp4">
+      <track kind="captions" src="{d['captions']}" srclang="{HTML_LANG[lang]}" label="{cap_label}" default>
+    </video>"""
+        meta = ("1920 × 1080 · H.264 · 含字幕" if lang == "zh"
+                else "1920 × 1080 · H.264 · captions included")
+        ld = {
+            "@context": "https://schema.org", "@type": "VideoObject",
+            "name": d["h1"] + " — TexForge", "description": d["desc"],
+            "thumbnailUrl": [_abs(d["poster"])], "uploadDate": S["updated"],
+            "duration": d["duration_iso"], "contentUrl": _abs(d["video"]),
+            "embedUrl": page, "inLanguage": HTML_LANG[lang],
+            "publisher": {"@type": "Organization", "name": "TexForge"},
+            "hasPart": [{"@type": "Clip", "name": label, "startOffset": sec,
+                         "url": f"{page}#t={sec}"} for sec, label, _ in d["chapters"]],
+        }
+        js = """(function(){var v=document.getElementById('trailer');if(!v)return;
+document.querySelectorAll('.chapter').forEach(function(b){b.addEventListener('click',function(){
+v.currentTime=Number(b.dataset.t)||0;v.play();v.scrollIntoView({behavior:'smooth',block:'center'});});});})();"""
+    else:
+        imgs = {1: ("shot-batch.png", "批量处理工作区" if lang == "zh" else "Batch workspace"),
+                2: ("shot-atlas.png", "图集打包工作区" if lang == "zh" else "Atlas workspace"),
+                3: ("shot-tools.png", "游戏像素工具" if lang == "zh" else "Game pixel tools"),
+                4: ("shot-toolbox.png", "图集工具箱" if lang == "zh" else "Atlas toolbox")}
+        scenes = []
+        tagline = ("统一图像批处理与纹理图集打包" if lang == "zh"
+                   else "Batch image processing and texture atlas packing")
+        stats = ("113 批处理动作 · 69 图集格式 · 24 引擎格式" if lang == "zh"
+                 else "113 batch actions · 69 atlas formats · 24 engine formats")
+        cmd = "texforge-cli batch --preset ui-icons.json --input ./art/ui --output ./build/ui"
+        end_title = ("已在 Microsoft Store 上架" if lang == "zh" else "Available on Microsoft Store")
+        end_sub = ("Windows 10 / 11（x64）· 中英双语界面" if lang == "zh"
+                   else "Windows 10 / 11 (x64) · Chinese and English UI")
+        for i, (sec, label, desc) in enumerate(d["chapters"]):
+            end = (d["chapters"][i + 1][0] if i + 1 < len(d["chapters"]) else total)
+            attrs = (f'class="tv-scene{" on" if i == 0 else ""}" data-start="{sec}" data-end="{end}" '
+                     f'data-label="{label}" data-desc="{desc}"')
+            if i == 0:
+                inner = (f'<div class="sc-inner"><img class="sc-icon" src="../assets/img/icon-1024.png" alt="" width="112" height="112">'
+                         f"<h3>TexForge</h3><p>{tagline}</p><span class=\"sc-sub\">{stats}</span></div>")
+            elif i == len(d["chapters"]) - 1:
+                inner = (f'<div class="sc-inner"><img class="sc-icon" src="../assets/img/icon-1024.png" alt="" width="72" height="72">'
+                         f'<h3>{end_title}</h3><p>{end_sub}</p>{badge(lang, "lg")}</div>')
+            elif i in imgs:
+                fn, alt = imgs[i]
+                inner = f'<div class="tv-frame"><img src="../assets/img/{fn}" alt="{alt}"></div>'
+            else:
+                kicker = "命令行" if lang == "zh" else "Command line"
+                sub = ("同一份预设，图形界面与命令行通用" if lang == "zh"
+                       else "The same preset runs in the GUI and the CLI")
+                inner = (f'<div class="sc-inner sc-cli"><span class="sc-kicker">{kicker}</span>'
+                         f'<pre><code>{cmd}</code></pre><p>{sub}</p></div>')
+            scenes.append(f'<div {attrs}>{inner}</div>')
+        stage = (f'<div class="player" id="player">'
+                 f'<div class="tv-stage">{"".join(scenes)}'
+                 f'<div class="tv-cap"><b id="capTitle"></b><em id="capDesc"></em></div></div>'
+                 f'<div class="player-bar"><button id="pp" class="pp" type="button" aria-label="play">''<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>''<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>'
+                 f'<div class="seek" id="seek" role="slider" aria-label="seek" tabindex="0">'
+                 f'<div class="seek-fill" id="fill"></div></div>'
+                 f'<span class="timecode"><b id="tcur">00:00</b> / {d["duration"]}</span></div></div>')
+        meta = ("交互演示 · 真实界面截图 · 可拖动时间轴" if lang == "zh"
+                else "Interactive demo · real UI screenshots · scrubbable timeline")
+        ld = {
+            "@context": "https://schema.org", "@type": "ItemList",
+            "name": d["h1"] + " — TexForge", "description": d["desc"],
+            "inLanguage": HTML_LANG[lang],
+            "itemListElement": [
+                {"@type": "ListItem", "position": i + 1, "name": label,
+                 "description": desc, "url": f"{page}#t={sec}"}
+                for i, (sec, label, desc) in enumerate(d["chapters"])
+            ],
+        }
+        js = """(function(){
+var p=document.getElementById('player');if(!p)return;
+var scenes=[].slice.call(p.querySelectorAll('.tv-scene'));
+var TOTAL=__TOTAL__,t=0,playing=false,raf=null,last=0;
+var fill=document.getElementById('fill'),cur=document.getElementById('tcur');
+var pp=document.getElementById('pp'),seek=document.getElementById('seek');
+var capT=document.getElementById('capTitle'),capD=document.getElementById('capDesc');
+function fmt(s){s=Math.max(0,Math.round(s));return ('0'+Math.floor(s/60)).slice(-2)+':'+('0'+(s%60)).slice(-2);}
+function activate(x){var i=0;for(var k=0;k<scenes.length;k++){if(x>=Number(scenes[k].dataset.start))i=k;}
+for(k=0;k<scenes.length;k++){scenes[k].classList.toggle('on',k===i);}
+capT.textContent=scenes[i].dataset.label||'';capD.textContent=scenes[i].dataset.desc||'';}
+function render(){fill.style.width=(t/TOTAL*100)+'%';cur.textContent=fmt(t);activate(t);}
+function step(ts){if(!playing)return;if(!last)last=ts;t+=(ts-last)/1000;last=ts;
+if(t>=TOTAL){t=TOTAL;render();pause();return;}render();raf=requestAnimationFrame(step);}
+function play(){if(t>=TOTAL)t=0;playing=true;last=0;pp.classList.add('playing');p.classList.add('playing');raf=requestAnimationFrame(step);}
+function pause(){playing=false;if(raf)cancelAnimationFrame(raf);raf=null;pp.classList.remove('playing');p.classList.remove('playing');}
+pp.addEventListener('click',function(){playing?pause():play();});
+seek.addEventListener('click',function(e){var r=this.getBoundingClientRect();t=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width))*TOTAL;render();});
+document.querySelectorAll('.chapter').forEach(function(b){b.addEventListener('click',function(){
+t=Number(b.dataset.t)||0;render();if(!playing)play();p.scrollIntoView({behavior:'smooth',block:'center'});});});
+render();
+})();""".replace("__TOTAL__", str(total))
+
+    return f"""<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="index.html">{'首页' if lang == 'zh' else 'Home'}</a> / {'预告片' if lang == 'zh' else 'Trailer'}</div>
+  <h1>{d['h1']}</h1><p>{d['lead']}</p>
+</div></div>
+<section class="tight"><div class="container">
+  <div class="video-wrap">{stage}</div>
+  <div class="video-bar">
+    <div class="video-meta"><span class="tag">{'时长' if lang == 'zh' else 'Duration'} {d['duration']}</span>
+      <span>{meta}</span></div>
+    {badge(lang, 'lg')}
+  </div>
+  <p class="note">{d['note']}</p>
+</div></section>
+<section class="alt"><div class="container">
+  <div class="grid-2 video-grid">
+    <div>
+      <h2 class="block-title">{d['chapters_title']}</h2>
+      <ol class="chapters">{chapters}</ol>
+    </div>
+    <div>
+      <h2 class="block-title">{d['highlights_title']}</h2>
+      <div class="grid-2 tight-grid">{highs}</div>
+    </div>
+  </div>
+</div></section>
+<section><div class="container">
+  <div class="prose"><h2>{d['transcript_title']}</h2>{transcript}</div>
+</div></section>
+<script>
+{js}
+</script>""", [ld]
+
+
+def build_howitworks(lang: str) -> str:
+    d = C.HOWITWORKS[lang]
+    stages = []
+    for i, st in enumerate(d["stages"]):
+        bullets = "".join(f"<li>{b}</li>" for b in st["bullets"])
+        rev = " reverse" if i % 2 else ""
+        stages.append(f"""<div class="stage{rev}" id="s{st['n']}">
+  <div class="stage-copy">
+    <span class="stage-n">{st['n']}</span>
+    <h2>{st['title']}</h2>
+    <p>{st['body']}</p>
+    <ul class="stage-list">{bullets}</ul>
+  </div>
+  <figure class="stage-media"><img src="{st['image']}" alt="{html.escape(st['caption'])}" loading="lazy">
+    <figcaption>{st['caption']}</figcaption></figure>
+</div>""")
+    nodes = '<span class="arrow">→</span>'.join(
+        f'<span class="pipe-node">{n}</span>' for n in d["pipeline_nodes"]
+    )
+    arch = "".join(
+        f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["arch_items"]
+    )
+    cli_notes = "".join(f"<li>{x}</li>" for x in d["cli_notes"])
+    why = "".join(f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["why"])
+    checklist = "".join(f"<li>{x}</li>" for x in d["checklist"])
+    return f"""<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="index.html">{'首页' if lang == 'zh' else 'Home'}</a> / {'工作原理' if lang == 'zh' else 'How it works'}</div>
+  <h1>{d['h1']}</h1><p>{d['lead']}</p>
+</div></div>
+<section class="tight"><div class="container">
+  <div class="pipeline"><h2>{d['pipeline_title']}</h2><p>{d['pipeline_desc']}</p>
+  <div class="pipe-row">{nodes}</div></div>
+</div></section>
+<section><div class="container stages">{''.join(stages)}</div></section>
+<section class="alt"><div class="container">
+  <div class="section-head"><h2>{d['arch_title']}</h2><p>{d['arch_desc']}</p></div>
+  <div class="grid-3">{arch}</div>
+</div></section>
+<section><div class="container">
+  <div class="prose"><h2>{d['cli_title']}</h2><p>{d['cli_desc']}</p>
+  <pre><code>{html.escape(d['cli_code'])}</code></pre>
+  <ul>{cli_notes}</ul></div>
+</div></section>
+<section class="alt"><div class="container">
+  <div class="section-head"><h2>{d['why_title']}</h2></div>
+  <div class="grid-3">{why}</div>
+</div></section>
+<section><div class="container">
+  <div class="prose"><h2>{d['checklist_title']}</h2><ol>{checklist}</ol></div>
 </div></section>"""
 
 
@@ -577,7 +889,8 @@ def build_root() -> str:
 def build_sitemap() -> str:
     urls = ["", "zh/", "en/"]
     for lang in ("zh", "en"):
-        for path in ("features.html", "faq.html", "download.html", "blog/index.html"):
+        for path in ("features.html", "trailer.html", "how-it-works.html",
+                     "faq.html", "download.html", "blog/index.html"):
             urls.append(f"{lang}/{path}")
         for p in C.POSTS:
             urls.append(f"{lang}/blog/{p['slug']}.html")
@@ -628,7 +941,11 @@ Sitemap: {BASE}sitemap.xml
 
 
 def build_llms() -> str:
-    faq = "\n".join(f"- Q: {q}\n  A: {a}" for q, a in C.FAQ["en"])
+    faq = "\n".join(f"- Q: {q}\n  A: {a}" for q, a in faq_items("en"))
+    workflow = "\n".join(
+        f"{i}. {s['title']} — {s['body']}"
+        for i, s in enumerate(C.HOWITWORKS["en"]["stages"], 1)
+    )
     posts = "\n".join(
         "- [{}]({}) ({}): {}".format(
             p["title_en"], url_for("en", "blog/" + p["slug"] + ".html"), p["date"], p["desc_en"]
@@ -659,6 +976,10 @@ def build_llms() -> str:
 - Asset audits: naming, dimension, duplicate and missing-pair checks with CSV/JSON reports
 - Automation: texforge-cli shares presets with the GUI for scripts and CI
 
+## Workflow
+
+{workflow}
+
 ## Frequently asked questions
 
 {faq}
@@ -668,6 +989,8 @@ def build_llms() -> str:
 - Chinese home: {url_for('zh', 'index.html')}
 - English home: {url_for('en', 'index.html')}
 - Features: {url_for('en', 'features.html')}
+- Trailer (44s demo, chapters and transcript): {url_for('en', 'trailer.html')}
+- How it works: {url_for('en', 'how-it-works.html')}
 - FAQ: {url_for('en', 'faq.html')}
 - Download: {url_for('en', 'download.html')}
 - Blog index: {url_for('en', 'blog/index.html')}
@@ -717,6 +1040,22 @@ def main() -> None:
             C.DOWNLOAD[lang]["title"], C.DOWNLOAD[lang]["desc"], build_download(lang),
             [ld_crumbs(lang, [("Home", "index.html"), ("Download", "download.html")])],
             keywords="TexForge download, Microsoft Store, Windows",
+        ))
+        tr_html, tr_ld = build_trailer(lang)
+        write(f"{lang}/trailer.html", shell(
+            lang, 1, "trailer.html",
+            C.TRAILER[lang]["title"], C.TRAILER[lang]["desc"], tr_html,
+            tr_ld + [ld_crumbs(lang, [("Home", "index.html"), ("Trailer", "trailer.html")])],
+            keywords=("TexForge 预告片, 演示视频, 纹理图集, 批量处理" if lang == "zh"
+                      else "TexForge trailer, demo video, texture atlas, batch processing"),
+        ))
+        write(f"{lang}/how-it-works.html", shell(
+            lang, 1, "how-it-works.html",
+            C.HOWITWORKS[lang]["title"], C.HOWITWORKS[lang]["desc"], build_howitworks(lang),
+            [ld_howto(lang),
+             ld_crumbs(lang, [("Home", "index.html"), ("How it works", "how-it-works.html")])],
+            keywords=("TexForge 工作流程, 导入, 预设, 校验, 导出, 报告" if lang == "zh"
+                      else "TexForge workflow, import, presets, validation, export, reports"),
         ))
         blog_html, blog_ld = build_blog_index(lang)
         write(f"{lang}/blog/index.html", shell(
