@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>常见问答 — TexForge 功能、格式与隐私</title>
+<meta name="description" content="TexForge 常见问题：支持格式、引擎、隐私、安装与命令行。">
+<meta name="keywords" content="TexForge FAQ, texture atlas, supported formats, privacy">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/zh/faq.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/faq.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/faq.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/faq.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="常见问答 — TexForge 功能、格式与隐私">
+<meta property="og:description" content="TexForge 常见问题：支持格式、引擎、隐私、安装与命令行。">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/zh/faq.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="常见问答 — TexForge 功能、格式与隐私">
+<meta name="twitter:description" content="TexForge 常见问题：支持格式、引擎、隐私、安装与命令行。">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/icon-300.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"zh-CN","mainEntity":[{"@type":"Question","name":"TexForge 是什么？","acceptedAnswer":{"@type":"Answer","text":"TexForge 是一款 Windows 桌面工具，把批量图像处理与纹理图集打包放在同一套管线里。它同时提供图形界面和命令行，适合独立开发者、美术和技术美术在日常资源生产中使用。"}},{"@type":"Question","name":"支持哪些图片格式？","acceptedAnswer":{"@type":"Answer","text":"常见位图格式均可读写，包括 PNG、JPEG、WebP、BMP、TIFF、TGA、DDS 等，并可通过扩展编解码器补充能力。图集侧支持 69 种描述文件格式。"}},{"@type":"Question","name":"支持哪些游戏引擎？","acceptedAnswer":{"@type":"Answer","text":"内置 Unity、Unreal、Godot、Cocos 的目录规划与元数据导出，共 24 种引擎数据格式；也支持 Phaser、PixiJS、Spine、LibGDX、SpriteKit、Egret、LayaAir 等运行时格式，并提供自定义模板。"}},{"@type":"Question","name":"会收集我的数据吗？","acceptedAnswer":{"@type":"Answer","text":"不会。TexForge 完全在本机运行，不上传图片、不回传遥测、不包含广告或追踪 SDK。详见隐私政策。"}},{"@type":"Question","name":"需要联网才能用吗？","acceptedAnswer":{"@type":"Answer","text":"不需要。安装完成后可离线使用，所有处理都在本地完成。"}},{"@type":"Question","name":"图形界面和命令行有什么区别？","acceptedAnswer":{"@type":"Answer","text":"两者共用同一套管线与预设。GUI 适合调试与预览，CLI（texforge-cli）适合批处理脚本、构建服务器与 CI 自动化。"}},{"@type":"Question","name":"图集打包支持留白、裁剪和 2 的幂吗？","acceptedAnswer":{"@type":"Answer","text":"支持。可设置留白与边缘扩展、按透明边界裁剪、旋转小图，并校验 POT / NPOT 与最大尺寸限制。"}},{"@type":"Question","name":"能处理多少张图片？","acceptedAnswer":{"@type":"Answer","text":"没有硬性张数限制，实际取决于磁盘空间、内存与单张图片尺寸。建议大批量任务先用小样本验证预设，再全量运行。"}},{"@type":"Question","name":"如何获取与更新？","acceptedAnswer":{"@type":"Answer","text":"通过 Microsoft Store 安装可获得自动更新。商店页面会显示当前版本与系统要求。"}},{"@type":"Question","name":"遇到问题如何反馈？","acceptedAnswer":{"@type":"Answer","text":"可以发邮件到 cdljn2022@gmail.com，或在 GitHub 仓库提交 issue。反馈时附上版本号、操作步骤与结果报告会更快定位问题。"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/zh/"},{"@type":"ListItem","position":2,"name":"FAQ","item":"https://lijiannan1241.github.io/TexForge/zh/faq.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">已在 <b>Microsoft Store</b> 上架 — 支持 Windows 10 / 11，中英双语界面。
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">立即获取 →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../zh/index.html"><img src="../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../zh/index.html">首页</a><a href="../zh/features.html">功能</a><a href="../zh/faq.html" aria-current="page">问答</a><a href="../zh/blog/index.html">博客</a><a href="../zh/download.html">下载</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../zh/faq.html" class="active">中文</a><a href="../en/faq.html">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="index.html">首页</a> / FAQ</div>
+  <h1>常见问答</h1><p>关于功能、格式、引擎支持、隐私与安装的高频问题。</p>
+</div></div>
+<section><div class="container prose">
+<div id="privacy" class="callout"><h3>隐私说明</h3>
+<p>TexForge 完全在本机运行，不收集、不上传任何个人信息与图片内容；不包含遥测、广告或第三方追踪 SDK。</p></div>
+<div class="faq-item"><h3>TexForge 是什么？</h3><p>TexForge 是一款 Windows 桌面工具，把批量图像处理与纹理图集打包放在同一套管线里。它同时提供图形界面和命令行，适合独立开发者、美术和技术美术在日常资源生产中使用。</p></div><div class="faq-item"><h3>支持哪些图片格式？</h3><p>常见位图格式均可读写，包括 PNG、JPEG、WebP、BMP、TIFF、TGA、DDS 等，并可通过扩展编解码器补充能力。图集侧支持 69 种描述文件格式。</p></div><div class="faq-item"><h3>支持哪些游戏引擎？</h3><p>内置 Unity、Unreal、Godot、Cocos 的目录规划与元数据导出，共 24 种引擎数据格式；也支持 Phaser、PixiJS、Spine、LibGDX、SpriteKit、Egret、LayaAir 等运行时格式，并提供自定义模板。</p></div><div class="faq-item"><h3>会收集我的数据吗？</h3><p>不会。TexForge 完全在本机运行，不上传图片、不回传遥测、不包含广告或追踪 SDK。详见隐私政策。</p></div><div class="faq-item"><h3>需要联网才能用吗？</h3><p>不需要。安装完成后可离线使用，所有处理都在本地完成。</p></div><div class="faq-item"><h3>图形界面和命令行有什么区别？</h3><p>两者共用同一套管线与预设。GUI 适合调试与预览，CLI（texforge-cli）适合批处理脚本、构建服务器与 CI 自动化。</p></div><div class="faq-item"><h3>图集打包支持留白、裁剪和 2 的幂吗？</h3><p>支持。可设置留白与边缘扩展、按透明边界裁剪、旋转小图，并校验 POT / NPOT 与最大尺寸限制。</p></div><div class="faq-item"><h3>能处理多少张图片？</h3><p>没有硬性张数限制，实际取决于磁盘空间、内存与单张图片尺寸。建议大批量任务先用小样本验证预设，再全量运行。</p></div><div class="faq-item"><h3>如何获取与更新？</h3><p>通过 Microsoft Store 安装可获得自动更新。商店页面会显示当前版本与系统要求。</p></div><div class="faq-item"><h3>遇到问题如何反馈？</h3><p>可以发邮件到 cdljn2022@gmail.com，或在 GitHub 仓库提交 issue。反馈时附上版本号、操作步骤与结果报告会更快定位问题。</p></div>
+</div></section>
+<div class="store-cta">
+      <div><h3>已在 Microsoft Store 上架</h3><p>Windows 10 / 11（x64）直接安装，支持中文与 English 界面。</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../zh/index.html"><img src="../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：批处理、纹理图集、法线贴图与引擎资产导出，一套管线，两种入口。</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="../zh/index.html">首页</a>
+        <a href="../zh/features.html">功能</a>
+        <a href="../zh/download.html">下载</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="../zh/blog/index.html">博客</a>
+        <a href="../zh/faq.html">常见问答</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub 仓库</a>
+      </div>
+      <div>
+        <h4>其他</h4>
+        <a href="../zh/faq.html#privacy">隐私政策</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. 保留所有权利。</span>
+      <span>Microsoft Store 与 Windows 是 Microsoft Corporation 的商标。</span>
+    </div>
+  </div>
+</footer>
+</body></html>

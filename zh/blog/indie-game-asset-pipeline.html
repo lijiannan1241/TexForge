@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>独立游戏美术资产流水线：从源文件到发布包 | TexForge 博客</title>
+<meta name="description" content="以一个小型独立项目为例，串起目录结构、命名规范、四个工作区的分工、引擎落地与发布前检查表。">
+<meta name="keywords" content="工作流, TexForge, 纹理图集, 批量处理">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/zh/blog/indie-game-asset-pipeline.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/indie-game-asset-pipeline.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="独立游戏美术资产流水线：从源文件到发布包 | TexForge 博客">
+<meta property="og:description" content="以一个小型独立项目为例，串起目录结构、命名规范、四个工作区的分工、引擎落地与发布前检查表。">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/zh/blog/indie-game-asset-pipeline.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:published_time" content="2026-11-11">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="独立游戏美术资产流水线：从源文件到发布包 | TexForge 博客">
+<meta name="twitter:description" content="以一个小型独立项目为例，串起目录结构、命名规范、四个工作区的分工、引擎落地与发布前检查表。">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"独立游戏美术资产流水线：从源文件到发布包","description":"以一个小型独立项目为例，串起目录结构、命名规范、四个工作区的分工、引擎落地与发布前检查表。","datePublished":"2026-11-11","dateModified":"2026-11-11","inLanguage":"zh-CN","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/zh/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/zh/blog/indie-game-asset-pipeline.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["工作流","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/zh/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/zh/blog/index.html"},{"@type":"ListItem","position":3,"name":"独立游戏美术资产流水线：从源文件到发布包","item":"https://lijiannan1241.github.io/TexForge/zh/blog/indie-game-asset-pipeline.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">已在 <b>Microsoft Store</b> 上架 — 支持 Windows 10 / 11，中英双语界面。
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">立即获取 →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../zh/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../zh/index.html">首页</a><a href="../../zh/features.html">功能</a><a href="../../zh/faq.html">问答</a><a href="../../zh/blog/index.html" aria-current="page">博客</a><a href="../../zh/download.html">下载</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/indie-game-asset-pipeline.html" class="active">中文</a><a href="../../en/blog/indie-game-asset-pipeline.html">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">首页</a> / <a href="index.html">Blog</a> / 工作流</div>
+  <h1>独立游戏美术资产流水线：从源文件到发布包</h1>
+  <p>以一个小型独立项目为例，串起目录结构、命名规范、四个工作区的分工、引擎落地与发布前检查表。</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">工作流</span><span>2026-11-11</span><span>·</span><span>3 分钟阅读</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>核心要点</h3><ul><li>目录与命名先定，工具才有意义</li><li>四个工作区对应四种任务，不要混用</li><li>发布前用检查表代替记忆</li></ul></div>
+<p>小团队做游戏，最缺的不是工具，而是「约定」。同一个项目里，有人用中文名、有人用空格、有人把源文件和导出文件混在一起。等到要出包，才发现找图比做图更花时间。</p>
+<h2>先把目录和命名定下来</h2>
+<p>建议把源文件与产物彻底分开：源文件进 art_src，导出结果进 build_art，两者都不手工修改。目录按资源类型划分，而不是按人划分。</p>
+<pre><code>art_src/
+  characters/
+  ui/
+  environment/
+build_art/
+  characters/
+  ui/
+  environment/
+</code></pre>
+<p>命名规则要能一眼看出用途与变体：类型_名称_状态_序号。避免空格与中文标点，避免大小写混用，因为不同系统和引擎对大小写的处理并不一致。</p>
+<h2>四个工作区怎么分工</h2>
+<p>TexForge 的四个工作区对应四类任务，混用会导致配置难以复用：</p>
+<ul><li>游戏像素工具：法线贴图、通道打包、Mipmap 与引擎目录规划，处理需要「计算」的资源。</li><li>批量处理：尺寸、格式、水印、元数据等规则化操作，处理「统一」的需求。</li><li>图集工具箱：九宫格切图、精灵拆分与校验，处理「拆与验」的需求。</li><li>图集打包：排布与多格式导出，处理「合与出」的需求。</li></ul>
+<h2>从源图到引擎</h2>
+<p>典型顺序是：先批量统一尺寸与色彩，再用像素工具生成法线或打包通道，然后进图集打包生成图片与描述文件，最后按引擎目录树落盘。每一步的预设都保存下来，下次只需替换输入目录。</p>
+<p>引擎侧只需要导入一次目录，后续资源更新走覆盖。描述文件与图片同名同目录，能显著减少「导入了但找不到」的问题。</p>
+<h2>版本与回滚</h2>
+<p>资源也要进版本控制，但不要提交中间产物。建议只提交源文件、预设与最终导出物，中间文件用忽略规则排除。每次发布打一个标签，出问题时能定位到具体哪次资源变更。</p>
+<blockquote>能回滚的资源流水线，才敢频繁发版。</blockquote>
+<h2>发布前检查表</h2>
+<ol><li>尺寸是否符合目标平台上限，是否需要 POT。</li><li>图集描述文件是否与图片匹配，坐标是否验证过。</li><li>法线贴图是否按线性数据处理，Y 轴方向是否正确。</li><li>元数据是否清理了隐私字段，版权信息是否写入。</li><li>包体是否在预算内，压缩结果是否抽检。</li><li>在目标设备上实际跑一遍，确认没有错位与模糊。</li></ol>
+<h2>小结</h2>
+<p>流水线的价值不在工具多强，而在「换人也能跑、隔月也能跑」。把目录、命名、预设与检查表固定下来，工具才真正省时间。</p>
+<div class="post-nav"><a class="prev" href="compression-and-target-size.html">← 压缩与目标体积：在画质与包体之间取平衡</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>已在 Microsoft Store 上架</h3><p>Windows 10 / 11（x64）直接安装，支持中文与 English 界面。</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../zh/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：批处理、纹理图集、法线贴图与引擎资产导出，一套管线，两种入口。</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="../../zh/index.html">首页</a>
+        <a href="../../zh/features.html">功能</a>
+        <a href="../../zh/download.html">下载</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="../../zh/blog/index.html">博客</a>
+        <a href="../../zh/faq.html">常见问答</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub 仓库</a>
+      </div>
+      <div>
+        <h4>其他</h4>
+        <a href="../../zh/faq.html#privacy">隐私政策</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. 保留所有权利。</span>
+      <span>Microsoft Store 与 Windows 是 Microsoft Corporation 的商标。</span>
+    </div>
+  </div>
+</footer>
+</body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXIF / XMP / IPTC 工作流：版权、作者与批量清理 | TexForge 博客</title>
+<meta name="description" content="资源交付时如何统一写入版权与作者信息、如何在发布前清理隐私字段，以及 ICC 色彩配置的处理原则。">
+<meta name="keywords" content="元数据, TexForge, 纹理图集, 批量处理">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/zh/blog/exif-xmp-iptc-workflow.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/exif-xmp-iptc-workflow.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="EXIF / XMP / IPTC 工作流：版权、作者与批量清理 | TexForge 博客">
+<meta property="og:description" content="资源交付时如何统一写入版权与作者信息、如何在发布前清理隐私字段，以及 ICC 色彩配置的处理原则。">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/zh/blog/exif-xmp-iptc-workflow.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:published_time" content="2026-10-21">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EXIF / XMP / IPTC 工作流：版权、作者与批量清理 | TexForge 博客">
+<meta name="twitter:description" content="资源交付时如何统一写入版权与作者信息、如何在发布前清理隐私字段，以及 ICC 色彩配置的处理原则。">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"EXIF / XMP / IPTC 工作流：版权、作者与批量清理","description":"资源交付时如何统一写入版权与作者信息、如何在发布前清理隐私字段，以及 ICC 色彩配置的处理原则。","datePublished":"2026-10-21","dateModified":"2026-10-21","inLanguage":"zh-CN","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/zh/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/zh/blog/exif-xmp-iptc-workflow.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["元数据","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/zh/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/zh/blog/index.html"},{"@type":"ListItem","position":3,"name":"EXIF / XMP / IPTC 工作流：版权、作者与批量清理","item":"https://lijiannan1241.github.io/TexForge/zh/blog/exif-xmp-iptc-workflow.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">已在 <b>Microsoft Store</b> 上架 — 支持 Windows 10 / 11，中英双语界面。
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">立即获取 →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../zh/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../zh/index.html">首页</a><a href="../../zh/features.html">功能</a><a href="../../zh/faq.html">问答</a><a href="../../zh/blog/index.html" aria-current="page">博客</a><a href="../../zh/download.html">下载</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/exif-xmp-iptc-workflow.html" class="active">中文</a><a href="../../en/blog/exif-xmp-iptc-workflow.html">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">首页</a> / <a href="index.html">Blog</a> / 元数据</div>
+  <h1>EXIF / XMP / IPTC 工作流：版权、作者与批量清理</h1>
+  <p>资源交付时如何统一写入版权与作者信息、如何在发布前清理隐私字段，以及 ICC 色彩配置的处理原则。</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">元数据</span><span>2026-10-21</span><span>·</span><span>3 分钟阅读</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>核心要点</h3><ul><li>元数据要批量写入而不是逐张编辑</li><li>发布前必须清理 GPS 等隐私字段</li><li>ICC 配置影响颜色一致性</li></ul></div>
+<p>一张图除了像素，还带着一整套元数据：拍摄设备、时间、作者、版权、关键词、色彩配置。对内是检索与追溯的依据，对外则可能泄露不该公开的信息。</p>
+<h2>为什么元数据值得管</h2>
+<p>美术交付时，版权与作者字段往往缺失或不统一。等到对外发布、被第三方转载时，才发现无法证明归属。统一写入是最低成本的知识产权保护。</p>
+<p>另一方面，手机或相机拍摄的素材可能带有 GPS 坐标、设备序列号、编辑历史。这些字段在公开渠道发布前应当清理，而不是事后补救。</p>
+<h2>批量写入与清理</h2>
+<p>逐张编辑元数据不现实。批处理应该支持：统一写入作者、版权、关键词；按规则追加或覆盖字段；按白名单保留必要信息，其余清除。</p>
+<ul><li>写入：作者、版权声明、项目名、许可类型。</li><li>清理：GPS、设备信息、编辑软件历史、注释。</li><li>保留：色彩配置、方向、必要的分辨率信息。</li></ul>
+<h2>ICC 与颜色一致性</h2>
+<p>不同设备与软件对颜色的解释依赖 ICC 配置。缺少配置或配置错误，会导致同一张图在设计师屏幕与玩家设备上呈现不同。批量转换时应明确目标色彩空间，并保留或嵌入对应配置。</p>
+<p>常见做法是统一到 sRGB 再交付，减少跨平台偏差；印刷或特定管线则可能使用更宽的色域，需要单独处理。</p>
+<h2>合规视角</h2>
+<p>面向欧盟等市场时，隐私相关的元数据清理不只是「最佳实践」，而是合规要求的一部分。公开发布的图片不应无意携带位置与设备信息。</p>
+<h2>落地建议</h2>
+<ol><li>把元数据规范写进交付检查表，而不是口头约定。</li><li>发布前跑一次清理批次，保留必要的版权字段。</li><li>色彩空间转换与嵌入配置一起做，避免只转不标。</li><li>抽样用系统属性面板或元数据查看工具核对结果。</li></ol>
+<h2>小结</h2>
+<p>元数据是资源的一部分，不是附属品。写入要统一，清理要彻底，色彩要可追溯。三件事都能批处理，也就没有理由靠人工。</p>
+<div class="post-nav"><a class="prev" href="sprite-sheet-and-nine-patch.html">← 精灵表与九宫格：移动 UI 切图的正确姿势</a><a class="next" href="compression-and-target-size.html">压缩与目标体积：在画质与包体之间取平衡 →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>已在 Microsoft Store 上架</h3><p>Windows 10 / 11（x64）直接安装，支持中文与 English 界面。</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../zh/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：批处理、纹理图集、法线贴图与引擎资产导出，一套管线，两种入口。</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="../../zh/index.html">首页</a>
+        <a href="../../zh/features.html">功能</a>
+        <a href="../../zh/download.html">下载</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="../../zh/blog/index.html">博客</a>
+        <a href="../../zh/faq.html">常见问答</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub 仓库</a>
+      </div>
+      <div>
+        <h4>其他</h4>
+        <a href="../../zh/faq.html#privacy">隐私政策</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. 保留所有权利。</span>
+      <span>Microsoft Store 与 Windows 是 Microsoft Corporation 的商标。</span>
+    </div>
+  </div>
+</footer>
+</body></html>

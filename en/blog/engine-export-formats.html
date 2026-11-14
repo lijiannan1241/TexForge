@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24 engine data formats: export for Unity, Godot, Unreal and Cocos at once | TexForge Blog</title>
+<meta name="description" content="The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.">
+<meta name="keywords" content="Engine export, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/engine-export-formats.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="24 engine data formats: export for Unity, Godot, Unreal and Cocos at once | TexForge Blog">
+<meta property="og:description" content="The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-09-16">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="24 engine data formats: export for Unity, Godot, Unreal and Cocos at once | TexForge Blog">
+<meta name="twitter:description" content="The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"24 engine data formats: export for Unity, Godot, Unreal and Cocos at once","description":"The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.","datePublished":"2026-09-16","dateModified":"2026-09-16","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Engine export","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"24 engine data formats: export for Unity, Godot, Unreal and Cocos at once","item":"https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/engine-export-formats.html">中文</a><a href="../../en/blog/engine-export-formats.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Engine export</div>
+  <h1>24 engine data formats: export for Unity, Godot, Unreal and Cocos at once</h1>
+  <p>The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Engine export</span><span>2026-09-16</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>The descriptor format decides whether the engine sees the atlas</li><li>Folder layout is a more common failure than the files</li><li>Custom templates cover in-house engines</li></ul></div>
+<p>Atlas packing is often treated as “generate one big image”. What the engine actually reads is the descriptor: each sprite's rectangle, rotation flag, trim offset and original size. Correct image plus wrong descriptor still renders as a broken layout.</p>
+<h2>Why 24 formats</h2>
+<p>Every engine carries its own conventions. Unity sprite data must match its importer; Godot 3 and Godot 4 use different resource formats; Unreal has its own sprite definitions; Cocos, Phaser, PixiJS, Spine, LibGDX, SpriteKit, Starling, Egret, LayaAir and WeChat mini games each differ. Generic JSON, XML, plist, CSS and CSV serve in-house or lightweight runtimes.</p>
+<p>Maintaining these by hand is pointless: field names, coordinate origin, rotation support and trim handling each introduce a way to break a whole batch.</p>
+<h2>Folder layout matters just as much</h2>
+<p>Most projects do not just drop an atlas into a folder. Unity commonly expects Assets/Art/Atlases with .meta files; Unreal has Content conventions; Godot keeps resources and import settings together. TexForge ships five folder trees — Unity, Unreal, Godot, Cocos and custom — and writes files into the target structure.</p>
+<blockquote>The most common failure in an asset pipeline is not a wrong image; it is a file in the wrong place.</blockquote>
+<h2>Multiple engines in parallel</h2>
+<p>Shipping Unity and web builds from one project is normal. The same character art feeds two runtimes with different descriptors. A batch can process the source images once and export both formats into their own folders, avoiding manual copying and renaming.</p>
+<h2>Custom templates</h2>
+<p>In-house engines and internal specs usually fall outside the 24. Custom templates let you assemble output field by field, keeping the rectangles, offsets and flags you need and dropping the rest. Once fixed, a template is reusable like a preset.</p>
+<h2>Practical advice</h2>
+<ol><li>Confirm the target engine's major version first; version differences often hurt more than engine differences.</li><li>Put folder trees and naming rules into presets instead of arranging files by hand.</li><li>Import once in the engine after export to verify coordinates and trimming.</li><li>Keep descriptors in version control so you can find which change broke placement.</li></ol>
+<h2>Takeaway</h2>
+<p>An atlas is an image plus metadata; neither works alone. Choosing the right format, placing files correctly and keeping reusable templates is what actually gets assets into the engine.</p>
+<div class="post-nav"><a class="prev" href="texture-atlas-packing.html">← A complete guide to texture atlas packing: padding, trimming, POT and 69 formats</a><a class="next" href="normal-map-channel-packing.html">Normal maps and channel packing: doing ORM, roughness and metallic right →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mipmaps and platform size limits: stop tripping on mobile textures | TexForge Blog</title>
+<meta name="description" content="How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.">
+<meta name="keywords" content="Mipmaps, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/mipmap-and-platform-limits.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="Mipmaps and platform size limits: stop tripping on mobile textures | TexForge Blog">
+<meta property="og:description" content="How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-09-30">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mipmaps and platform size limits: stop tripping on mobile textures | TexForge Blog">
+<meta name="twitter:description" content="How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Mipmaps and platform size limits: stop tripping on mobile textures","description":"How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.","datePublished":"2026-09-30","dateModified":"2026-09-30","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Mipmaps","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"Mipmaps and platform size limits: stop tripping on mobile textures","item":"https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/mipmap-and-platform-limits.html">中文</a><a href="../../en/blog/mipmap-and-platform-limits.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Mipmaps</div>
+  <h1>Mipmaps and platform size limits: stop tripping on mobile textures</h1>
+  <p>How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Mipmaps</span><span>2026-09-30</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Mipmaps add roughly one third more memory</li><li>Compressed formats often require POT</li><li>Move size validation to export time</li></ul></div>
+<p>A 2048×2048 RGBA texture takes 16 MB, and mipmaps add roughly a third more. With many textures, memory and bandwidth become the bottleneck before frame rate does. Mipmaps and size limits are not optional polish; they are constraints to verify before shipping.</p>
+<h2>What mipmaps solve</h2>
+<p>When a texture is displayed smaller than its resolution, sampling frequency exceeds pixel frequency, producing moire and shimmer. Mipmaps pre-generate halved copies and pick a level by distance, reducing shimmer and bandwidth.</p>
+<p>The cost is about 33% more memory, plus edge handling when generating. UI sprites, text and small images that must stay crisp usually disable mipmaps; large surfaces in 3D scenes usually enable them.</p>
+<h2>POT versus NPOT</h2>
+<p>Power-of-two dimensions are mandatory on older hardware and for some compressed formats. Mobile compressed textures such as ETC2 and ASTC relate closely to POT block layout, and some platforms require POT for mip generation. Even where NPOT works, target the strictest platform you ship to.</p>
+<ul><li>Mobile: 2048 or 4096 max dimension is common, and compression often requires POT.</li><li>Desktop: higher limits, NPOT generally fine.</li><li>WebGL: device and driver dependent; 2048 is the safer ceiling.</li></ul>
+<h2>Estimating memory</h2>
+<p>The rough formula is width × height × bytes per pixel. RGBA8 is 4 bytes, RGB565 is 2, single channel is 1. Multiply by about 1.33 with mipmaps. Doing the math up front is cheaper than discovering an out-of-memory crash on device.</p>
+<h2>Move validation earlier</h2>
+<p>The best time to catch an oversized texture is at export, not when packaging an APK or importing into the engine. TexForge validates dimensions, POT and maximum size against the target platform while building mipmaps and atlases, and flags violations.</p>
+<blockquote>If an error can be reported at export time, do not save it for device testing.</blockquote>
+<h2>Practical advice</h2>
+<ol><li>Set the size ceiling by your lowest-end target platform; others inherit it.</li><li>Disable mipmaps for UI and text, enable them for 3D scene textures.</li><li>Decide compression format and POT together, not separately.</li><li>Estimate total memory before a large batch to confirm devices can handle it.</li></ol>
+<h2>Takeaway</h2>
+<p>Mipmaps and size limits are a trade-off between sharpness, memory and compatibility. Write them into platform specs and let the tool validate at export — far more reliable than memory and post-hoc debugging.</p>
+<div class="post-nav"><a class="prev" href="normal-map-channel-packing.html">← Normal maps and channel packing: doing ORM, roughness and metallic right</a><a class="next" href="cli-automation-ci.html">CLI and CI integration: wire your asset pipeline into the build →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

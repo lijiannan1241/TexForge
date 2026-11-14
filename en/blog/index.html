@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TexForge Blog — batch processing, atlases and engine assets</title>
+<meta name="description" content="Ten practical articles: batch processing, texture atlases, engine export, normal maps, mipmaps, CLI automation and metadata.">
+<meta name="keywords" content="TexForge blog, texture atlas tutorial, batch image processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/index.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/index.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/index.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="TexForge Blog — batch processing, atlases and engine assets">
+<meta property="og:description" content="Ten practical articles: batch processing, texture atlases, engine export, normal maps, mipmaps, CLI automation and metadata.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/index.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TexForge Blog — batch processing, atlases and engine assets">
+<meta name="twitter:description" content="Ten practical articles: batch processing, texture atlases, engine export, normal maps, mipmaps, CLI automation and metadata.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"TexForge Blog","inLanguage":"en","url":"https://lijiannan1241.github.io/TexForge/en/blog/index.html","blogPost":[{"@type":"BlogPosting","headline":"Batch image processing in practice: configure once, process thousands","url":"https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html","datePublished":"2026-09-02"},{"@type":"BlogPosting","headline":"A complete guide to texture atlas packing: padding, trimming, POT and 69 formats","url":"https://lijiannan1241.github.io/TexForge/en/blog/texture-atlas-packing.html","datePublished":"2026-09-09"},{"@type":"BlogPosting","headline":"24 engine data formats: export for Unity, Godot, Unreal and Cocos at once","url":"https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html","datePublished":"2026-09-16"},{"@type":"BlogPosting","headline":"Normal maps and channel packing: doing ORM, roughness and metallic right","url":"https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html","datePublished":"2026-09-23"},{"@type":"BlogPosting","headline":"Mipmaps and platform size limits: stop tripping on mobile textures","url":"https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html","datePublished":"2026-09-30"},{"@type":"BlogPosting","headline":"CLI and CI integration: wire your asset pipeline into the build","url":"https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html","datePublished":"2026-10-07"},{"@type":"BlogPosting","headline":"Sprite sheets and nine-patch: slicing mobile UI the right way","url":"https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html","datePublished":"2026-10-14"},{"@type":"BlogPosting","headline":"EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup","url":"https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html","datePublished":"2026-10-21"},{"@type":"BlogPosting","headline":"Compression and target size: balancing quality against package size","url":"https://lijiannan1241.github.io/TexForge/en/blog/compression-and-target-size.html","datePublished":"2026-10-28"},{"@type":"BlogPosting","headline":"An indie game art pipeline: from source files to a shippable build","url":"https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html","datePublished":"2026-11-11"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/index.html">中文</a><a href="../../en/blog/index.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / Blog</div>
+  <h1>Blog: batch and atlas in practice</h1><p>Ten articles covering TexForge from different angles: batch processing, atlases, engine export, normal maps, mipmaps, automation and metadata.</p>
+</div></div>
+<section><div class="container"><div class="post-list"><a class="post-card" href="batch-image-processing-guide.html"><span class="tag">Batch processing</span><h3>Batch image processing in practice: configure once, process thousands</h3><p>How to combine TexForge's 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.</p><div class="meta">2026-09-02 · 3 min read</div></a><a class="post-card" href="texture-atlas-packing.html"><span class="tag">Texture atlas</span><h3>A complete guide to texture atlas packing: padding, trimming, POT and 69 formats</h3><p>An atlas is more than a big image full of sprites. Padding, extrusion, trimming, rotation and format choice decide runtime sampling quality and memory cost.</p><div class="meta">2026-09-09 · 3 min read</div></a><a class="post-card" href="engine-export-formats.html"><span class="tag">Engine export</span><h3>24 engine data formats: export for Unity, Godot, Unreal and Cocos at once</h3><p>The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.</p><div class="meta">2026-09-16 · 3 min read</div></a><a class="post-card" href="normal-map-channel-packing.html"><span class="tag">Normal maps</span><h3>Normal maps and channel packing: doing ORM, roughness and metallic right</h3><p>From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.</p><div class="meta">2026-09-23 · 3 min read</div></a><a class="post-card" href="mipmap-and-platform-limits.html"><span class="tag">Mipmaps</span><h3>Mipmaps and platform size limits: stop tripping on mobile textures</h3><p>How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.</p><div class="meta">2026-09-30 · 3 min read</div></a><a class="post-card" href="cli-automation-ci.html"><span class="tag">Automation</span><h3>CLI and CI integration: wire your asset pipeline into the build</h3><p>The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.</p><div class="meta">2026-10-07 · 3 min read</div></a><a class="post-card" href="sprite-sheet-and-nine-patch.html"><span class="tag">Sprites & UI</span><h3>Sprite sheets and nine-patch: slicing mobile UI the right way</h3><p>Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.</p><div class="meta">2026-10-14 · 3 min read</div></a><a class="post-card" href="exif-xmp-iptc-workflow.html"><span class="tag">Metadata</span><h3>EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup</h3><p>How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.</p><div class="meta">2026-10-21 · 3 min read</div></a><a class="post-card" href="compression-and-target-size.html"><span class="tag">Compression</span><h3>Compression and target size: balancing quality against package size</h3><p>Target-size compression, PNG optimization, lossy versus lossless trade-offs, and verifying results in bulk instead of eyeballing every file.</p><div class="meta">2026-10-28 · 3 min read</div></a><a class="post-card" href="indie-game-asset-pipeline.html"><span class="tag">Workflow</span><h3>An indie game art pipeline: from source files to a shippable build</h3><p>A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.</p><div class="meta">2026-11-11 · 3 min read</div></a></div></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

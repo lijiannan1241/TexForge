@@ -1,0 +1,69 @@
+# TexForge
+
+> TexForge is a Windows desktop application for batch image processing and texture atlas packing. It ships 113 batch actions, 69 atlas image formats and 24 engine data formats, with a GUI and a CLI sharing one pipeline. UI is available in Chinese and English. Distributed through Microsoft Store.
+
+## Key facts
+
+- Product: TexForge 1.3.4
+- Platform: Windows 10 / Windows 11 (x64)
+- Category: Multimedia design / graphics tooling
+- Distribution: Microsoft Store — https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK
+- Repository: https://github.com/lijiannan1241/TexForge
+- Contact: cdljn2022@gmail.com
+- Privacy: runs fully locally; no telemetry, no image uploads, no tracking SDKs
+- Pricing: see the Microsoft Store listing for the current price and trial options
+
+## Capabilities
+
+- Batch processing: 113 actions covering resize, crop, rotate, watermark, format conversion, compression, metadata and more
+- Texture atlases: packing with padding, extrusion, trimming, rotation and power-of-two validation; 69 descriptor formats
+- Engine export: 24 data formats for Unity, Unreal, Godot, Cocos, Phaser, PixiJS, Spine, LibGDX, SpriteKit, Egret, LayaAir, WeChat mini games, plus custom templates
+- Game pixel tools: normal map generation, ORM/RMA channel packing, mipmaps, platform size limits, engine folder planning
+- Asset audits: naming, dimension, duplicate and missing-pair checks with CSV/JSON reports
+- Automation: texforge-cli shares presets with the GUI for scripts and CI
+
+## Frequently asked questions
+
+- Q: What is TexForge?
+  A: TexForge is a Windows desktop tool that puts batch image processing and texture atlas packing into one pipeline. It ships both a GUI and a CLI, aimed at indie developers, artists and technical artists.
+- Q: Which image formats are supported?
+  A: Common raster formats can be read and written, including PNG, JPEG, WebP, BMP, TIFF, TGA and DDS, with optional extended codecs. The atlas side supports 69 descriptor formats.
+- Q: Which game engines are supported?
+  A: Built-in folder planning and metadata export for Unity, Unreal, Godot and Cocos — 24 engine data formats in total — plus Phaser, PixiJS, Spine, LibGDX, SpriteKit, Egret, LayaAir and custom templates.
+- Q: Does it collect my data?
+  A: No. TexForge runs entirely on your machine. It does not upload images, send telemetry, or include advertising or tracking SDKs. See the privacy policy for details.
+- Q: Does it need an internet connection?
+  A: No. After installation it works offline; all processing happens locally.
+- Q: What is the difference between the GUI and the CLI?
+  A: They share the same pipeline and presets. The GUI is for tuning and previewing; the CLI (texforge-cli) is for batch scripts, build servers and CI automation.
+- Q: Does atlas packing support padding, trimming and power-of-two?
+  A: Yes. You can set padding and edge extrusion, trim by alpha bounds, rotate small sprites, and validate POT / NPOT and maximum size limits.
+- Q: How many images can it process?
+  A: There is no hard limit; throughput depends on disk space, memory and image dimensions. For large jobs, validate the preset on a small sample first.
+- Q: How do I install and update?
+  A: Install from Microsoft Store to receive automatic updates. The store listing shows the current version and system requirements.
+- Q: How do I report a problem?
+  A: Email cdljn2022@gmail.com or open an issue on the GitHub repository. Include the version, steps to reproduce and the result report to speed things up.
+
+## Pages
+
+- Chinese home: https://lijiannan1241.github.io/TexForge/zh/
+- English home: https://lijiannan1241.github.io/TexForge/en/
+- Features: https://lijiannan1241.github.io/TexForge/en/features.html
+- FAQ: https://lijiannan1241.github.io/TexForge/en/faq.html
+- Download: https://lijiannan1241.github.io/TexForge/en/download.html
+- Blog index: https://lijiannan1241.github.io/TexForge/en/blog/index.html
+- Sitemap: https://lijiannan1241.github.io/TexForge/sitemap.xml
+
+## Blog posts
+
+- [Batch image processing in practice: configure once, process thousands](https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html) (2026-09-02): How to combine TexForge's 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.
+- [A complete guide to texture atlas packing: padding, trimming, POT and 69 formats](https://lijiannan1241.github.io/TexForge/en/blog/texture-atlas-packing.html) (2026-09-09): An atlas is more than a big image full of sprites. Padding, extrusion, trimming, rotation and format choice decide runtime sampling quality and memory cost.
+- [24 engine data formats: export for Unity, Godot, Unreal and Cocos at once](https://lijiannan1241.github.io/TexForge/en/blog/engine-export-formats.html) (2026-09-16): The same atlas needs different descriptors and folder layouts per engine. A look at 24 formats, folder planning and custom templates.
+- [Normal maps and channel packing: doing ORM, roughness and metallic right](https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html) (2026-09-23): From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.
+- [Mipmaps and platform size limits: stop tripping on mobile textures](https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html) (2026-09-30): How mip chains affect memory and looks, POT versus NPOT, platform size caps, and how to validate before export.
+- [CLI and CI integration: wire your asset pipeline into the build](https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html) (2026-10-07): The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.
+- [Sprite sheets and nine-patch: slicing mobile UI the right way](https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html) (2026-10-14): Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.
+- [EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup](https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html) (2026-10-21): How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.
+- [Compression and target size: balancing quality against package size](https://lijiannan1241.github.io/TexForge/en/blog/compression-and-target-size.html) (2026-10-28): Target-size compression, PNG optimization, lossy versus lossless trade-offs, and verifying results in bulk instead of eyeballing every file.
+- [An indie game art pipeline: from source files to a shippable build](https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html) (2026-11-11): A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.

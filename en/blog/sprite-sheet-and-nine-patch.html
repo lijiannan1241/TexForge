@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprite sheets and nine-patch: slicing mobile UI the right way | TexForge Blog</title>
+<meta name="description" content="Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.">
+<meta name="keywords" content="Sprites & UI, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/sprite-sheet-and-nine-patch.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="Sprite sheets and nine-patch: slicing mobile UI the right way | TexForge Blog">
+<meta property="og:description" content="Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-10-14">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sprite sheets and nine-patch: slicing mobile UI the right way | TexForge Blog">
+<meta name="twitter:description" content="Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Sprite sheets and nine-patch: slicing mobile UI the right way","description":"Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.","datePublished":"2026-10-14","dateModified":"2026-10-14","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Sprites & UI","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"Sprite sheets and nine-patch: slicing mobile UI the right way","item":"https://lijiannan1241.github.io/TexForge/en/blog/sprite-sheet-and-nine-patch.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/sprite-sheet-and-nine-patch.html">中文</a><a href="../../en/blog/sprite-sheet-and-nine-patch.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Sprites & UI</div>
+  <h1>Sprite sheets and nine-patch: slicing mobile UI the right way</h1>
+  <p>Sprite splitting, nine-patch stretch regions, batch borders and rounded corners, and verifying shapes in the engine afterwards.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Sprites & UI</span><span>2026-10-14</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Four guide lines define a nine-patch</li><li>Corners and strokes belong in non-stretch regions</li><li>Verify slices at real resolutions</li></ul></div>
+<p>Mobile UI leans on stretchable panels: buttons, dialogs, bubbles, list rows. They are all rounded rectangles in wildly different sizes. Slicing one image per size makes the package balloon.</p>
+<h2>How nine-patch works</h2>
+<p>A nine-patch divides an image with two horizontal and two vertical guide lines into nine regions. Corners stay fixed, edges stretch in one direction, the center stretches in both. One small image then fits any size while keeping corners and strokes intact.</p>
+<p>The guides must sit in areas that are safe to stretch. Rounded corners, strokes and decorations belong in the fixed parts of corners or edges, or they smear when stretched.</p>
+<h2>Sprite splitting</h2>
+<p>The reverse need is just as common: take a packed sheet and split it into individual images, or repack under new rules. Splitting involves irregular gaps, transparent margins and naming — slow and error-prone by hand.</p>
+<p>TexForge's atlas toolbox splits by alpha bounds, writes individual images and preserves naming, which makes reprocessing or migrating to a new atlas straightforward.</p>
+<h2>Batch corners and strokes</h2>
+<p>UI assets usually follow a spec: corner radius, stroke width, padding, shadow. Encoding these as batch actions is far more controllable than letting every artist improvise. Change the spec once, regenerate everything.</p>
+<ul><li>Drive radius and stroke width with parameters instead of pixel-level manual edits.</li><li>Keep transparent padding so nine-patch guides have room.</li><li>Export @1x / @2x / @3x with consistent naming.</li></ul>
+<h2>Verify after export</h2>
+<p>The usual nine-patch failure is not slicing — it is stretching badly in the engine. Check each asset at real resolutions and extreme aspect ratios: very long buttons, very narrow rows, very large bubbles.</p>
+<blockquote>A nine-patch is only done when it looks right at both 320 and 1440 pixels wide.</blockquote>
+<h2>Takeaway</h2>
+<p>Sprite sheets solve quantity; nine-patch solves variation. The first needs packing and splitting tools, the second needs guide discipline and verification. Both are rule problems, which is why both suit batch processing.</p>
+<div class="post-nav"><a class="prev" href="cli-automation-ci.html">← CLI and CI integration: wire your asset pipeline into the build</a><a class="next" href="exif-xmp-iptc-workflow.html">EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

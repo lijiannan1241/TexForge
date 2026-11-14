@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup | TexForge Blog</title>
+<meta name="description" content="How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.">
+<meta name="keywords" content="Metadata, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/exif-xmp-iptc-workflow.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup | TexForge Blog">
+<meta property="og:description" content="How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-10-21">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup | TexForge Blog">
+<meta name="twitter:description" content="How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup","description":"How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.","datePublished":"2026-10-21","dateModified":"2026-10-21","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Metadata","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup","item":"https://lijiannan1241.github.io/TexForge/en/blog/exif-xmp-iptc-workflow.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/exif-xmp-iptc-workflow.html">中文</a><a href="../../en/blog/exif-xmp-iptc-workflow.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Metadata</div>
+  <h1>EXIF / XMP / IPTC workflows: copyright, authorship and bulk cleanup</h1>
+  <p>How to stamp copyright and authorship consistently, strip private fields before publishing, and handle ICC profiles correctly.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Metadata</span><span>2026-10-21</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Write metadata in bulk, not file by file</li><li>Strip GPS and other private fields before publishing</li><li>ICC profiles decide color consistency</li></ul></div>
+<p>An image carries more than pixels: capture device, time, author, copyright, keywords, color profile. Internally that is searchable provenance; externally it can leak information you never meant to publish.</p>
+<h2>Why metadata deserves management</h2>
+<p>Art deliveries often have missing or inconsistent copyright and author fields. The gap only becomes obvious when a third party reposts the work and you cannot prove ownership. Consistent stamping is the cheapest form of protection.</p>
+<p>Conversely, phone or camera captures may embed GPS coordinates, device serial numbers and edit history. Those fields should be stripped before public release, not patched afterwards.</p>
+<h2>Bulk writing and stripping</h2>
+<p>Editing metadata file by file is not realistic. Batch processing should support writing author, copyright and keywords consistently; appending or overwriting by rule; and keeping a whitelist while removing the rest.</p>
+<ul><li>Write: author, copyright notice, project name, license type.</li><li>Remove: GPS, device details, editing history, comments.</li><li>Keep: color profile, orientation, necessary resolution data.</li></ul>
+<h2>ICC and color consistency</h2>
+<p>Devices and applications interpret color through ICC profiles. A missing or wrong profile makes the same image look different on an artist's monitor and a player's device. Batch conversion should define the target color space and embed the matching profile.</p>
+<p>A common approach is converting everything to sRGB before delivery to reduce cross-platform drift; print or specialized pipelines may need a wider gamut and separate handling.</p>
+<h2>Compliance angle</h2>
+<p>For markets such as the EU, stripping privacy-related metadata is not just best practice but part of compliance. Publicly released images should not unintentionally carry location and device information.</p>
+<h2>Practical advice</h2>
+<ol><li>Put metadata rules in the delivery checklist instead of verbal agreements.</li><li>Run a cleanup batch before publishing while keeping required copyright fields.</li><li>Convert color space and embed the profile together, not one without the other.</li><li>Spot-check results with the system properties panel or a metadata viewer.</li></ol>
+<h2>Takeaway</h2>
+<p>Metadata is part of the asset, not an accessory. Write consistently, strip thoroughly, keep color traceable. All three are batchable, so there is no reason to do them by hand.</p>
+<div class="post-nav"><a class="prev" href="sprite-sheet-and-nine-patch.html">← Sprite sheets and nine-patch: slicing mobile UI the right way</a><a class="next" href="compression-and-target-size.html">Compression and target size: balancing quality against package size →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

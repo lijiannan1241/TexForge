@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normal maps and channel packing: doing ORM, roughness and metallic right | TexForge Blog</title>
+<meta name="description" content="From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.">
+<meta name="keywords" content="Normal maps, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/normal-map-channel-packing.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="Normal maps and channel packing: doing ORM, roughness and metallic right | TexForge Blog">
+<meta property="og:description" content="From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-09-23">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Normal maps and channel packing: doing ORM, roughness and metallic right | TexForge Blog">
+<meta name="twitter:description" content="From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Normal maps and channel packing: doing ORM, roughness and metallic right","description":"From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.","datePublished":"2026-09-23","dateModified":"2026-09-23","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Normal maps","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"Normal maps and channel packing: doing ORM, roughness and metallic right","item":"https://lijiannan1241.github.io/TexForge/en/blog/normal-map-channel-packing.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/normal-map-channel-packing.html">中文</a><a href="../../en/blog/normal-map-channel-packing.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Normal maps</div>
+  <h1>Normal maps and channel packing: doing ORM, roughness and metallic right</h1>
+  <p>From height maps to normal maps, ORM / RMA channel packing and Y-axis conventions — the color-space and channel-order traps worth avoiding.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Normal maps</span><span>2026-09-23</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Treat normal maps as linear data</li><li>Unity and Unreal use different channel conventions</li><li>A wrong Y axis flips lighting globally</li></ul></div>
+<p>A normal map looks like “a bluish image”, but it stores vectors, not color. Treating it like an ordinary texture usually produces odd lighting, washed-out edges and banding after compression.</p>
+<h2>Normal maps are data, not color</h2>
+<p>RGB encodes the X, Y and Z directions mapped into 0 to 1. It must be handled as linear data: no sRGB conversion, no photo-oriented compression settings, no casual color grading.</p>
+<p>When generating from a height map, the strength parameter controls exaggeration. Too strong and details intersect; too weak and the surface disappears under large lights. Tune it under real engine lighting rather than a flat preview.</p>
+<h2>Y axis: OpenGL versus DirectX</h2>
+<p>Graphics APIs disagree about the green channel. OpenGL conventionally points Y up; DirectX points Y down. Getting it backwards flips lighting globally — bumps read as dents.</p>
+<p>Unity and Unreal default differently, so cross-engine reuse requires checking this. TexForge exposes a Y-flip switch when generating normal maps, so you do not have to invert the green channel by hand afterwards.</p>
+<h2>Channel packing: ORM and RMA</h2>
+<p>To reduce texture count, artists pack ambient occlusion, roughness and metallic into three channels. Two conventions dominate:</p>
+<ul><li>ORM: R = AO, G = Roughness, B = Metallic — common in Unreal workflows.</li><li>RMA: R = Roughness, G = Metallic, B = AO — used by some teams and pipelines.</li><li>Unity HDRP / URP have their own occlusion and smoothness habits, where smoothness is often the inverse of roughness.</li></ul>
+<p>One channel out of order and the material is visibly wrong: metal areas turn rough, cavity occlusion lands on highlights. Batch packing helps because the mapping is configured once and applied identically to every map.</p>
+<h2>Common traps</h2>
+<ol><li>Saving a normal map as sRGB so the engine applies gamma twice.</li><li>Storing normal maps as JPEG, where compression noise becomes wrong normals.</li><li>Packing a grayscale placeholder instead of actually baking AO.</li><li>Mixing roughness and smoothness without the 1-minus inversion.</li><li>Using one channel order across platforms that expect different ones.</li></ol>
+<h2>Encode it in the batch</h2>
+<p>Channel mapping, Y direction and color-space flags are parameters you should decide once. Put them in a preset and process them alongside size and format — that is what makes results stable.</p>
+<h2>Takeaway</h2>
+<p>The hard part of normal maps and channel packing is convention, not tooling. Confirm the engine, the color space and the channel order, then let batch processing guarantee consistency.</p>
+<div class="post-nav"><a class="prev" href="engine-export-formats.html">← 24 engine data formats: export for Unity, Godot, Unreal and Cocos at once</a><a class="next" href="mipmap-and-platform-limits.html">Mipmaps and platform size limits: stop tripping on mobile textures →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

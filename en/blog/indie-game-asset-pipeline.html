@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An indie game art pipeline: from source files to a shippable build | TexForge Blog</title>
+<meta name="description" content="A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.">
+<meta name="keywords" content="Workflow, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/indie-game-asset-pipeline.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="An indie game art pipeline: from source files to a shippable build | TexForge Blog">
+<meta property="og:description" content="A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-11-11">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An indie game art pipeline: from source files to a shippable build | TexForge Blog">
+<meta name="twitter:description" content="A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"An indie game art pipeline: from source files to a shippable build","description":"A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.","datePublished":"2026-11-11","dateModified":"2026-11-11","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Workflow","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"An indie game art pipeline: from source files to a shippable build","item":"https://lijiannan1241.github.io/TexForge/en/blog/indie-game-asset-pipeline.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/indie-game-asset-pipeline.html">中文</a><a href="../../en/blog/indie-game-asset-pipeline.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Workflow</div>
+  <h1>An indie game art pipeline: from source files to a shippable build</h1>
+  <p>A small indie project as the running example: folder structure, naming rules, how the four workspaces divide the work, engine integration and a pre-release checklist.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Workflow</span><span>2026-11-11</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Fix folders and naming first; tools come second</li><li>Four workspaces for four jobs — do not mix them</li><li>Replace memory with a pre-release checklist</li></ul></div>
+<p>Small teams rarely lack tools; they lack conventions. In one project, someone uses Chinese names, someone uses spaces, someone mixes source files with exports. By release time, finding an image costs more than making one.</p>
+<h2>Fix folders and naming first</h2>
+<p>Keep sources and outputs completely separate: sources in art_src, exports in build_art, and never edit either by hand in the wrong place. Organize by asset type, not by person.</p>
+<pre><code>art_src/
+  characters/
+  ui/
+  environment/
+build_art/
+  characters/
+  ui/
+  environment/
+</code></pre>
+<p>Naming should reveal purpose and variant at a glance: type_name_state_index. Avoid spaces and localized punctuation, and avoid mixed case, because file systems and engines disagree about case sensitivity.</p>
+<h2>How the four workspaces divide work</h2>
+<p>TexForge's four workspaces map to four jobs; mixing them makes configuration hard to reuse:</p>
+<ul><li>Game pixel tools: normal maps, channel packing, mipmaps and engine folder planning — assets that need computation.</li><li>Batch: size, format, watermark and metadata rules — the need for consistency.</li><li>Atlas toolbox: nine-patch slicing, sprite splitting and validation — splitting and checking.</li><li>Atlas: layout and multi-format export — combining and shipping.</li></ul>
+<h2>From source art to the engine</h2>
+<p>A typical order: batch-unify size and color, generate normals or pack channels, build atlases and descriptors, then write into the engine folder tree. Save each preset so next time you only change the input folder.</p>
+<p>On the engine side, import the folder once and overwrite on updates. Descriptors living next to the atlas image with matching names eliminates most “imported but not found” issues.</p>
+<h2>Versioning and rollback</h2>
+<p>Assets belong in version control, but do not commit intermediates. Commit sources, presets and final exports; ignore intermediate files. Tag each release so you can identify exactly which asset change caused a problem.</p>
+<blockquote>Only a pipeline you can roll back is safe to ship from frequently.</blockquote>
+<h2>Pre-release checklist</h2>
+<ol><li>Do dimensions fit platform limits, and do they need to be POT?</li><li>Do atlas descriptors match the images, with verified coordinates?</li><li>Are normal maps treated as linear data, with the correct Y axis?</li><li>Are private metadata fields stripped and copyright written?</li><li>Is the build within budget, and were compression results spot-checked?</li><li>Did you run it on a target device to confirm no offset or blur?</li></ol>
+<h2>Takeaway</h2>
+<p>A pipeline's value is not how powerful the tool is, but that someone else can run it and that it still works next month. Fix folders, naming, presets and checklists, and the tool finally saves real time.</p>
+<div class="post-nav"><a class="prev" href="compression-and-target-size.html">← Compression and target size: balancing quality against package size</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

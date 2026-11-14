@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>功能 — 批处理、图集、引擎导出与资产审查 | TexForge</title>
+<meta name="description" content="TexForge 功能详解：113 个批处理动作、69 种图集格式、24 种引擎数据格式、法线贴图与通道打包、Mipmap、九宫格、元数据与资产审查，GUI 与 CLI 共用同一管线。">
+<meta name="keywords" content="batch actions, atlas formats, engine export, normal map, mipmap">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/zh/features.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/features.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/features.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/features.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="功能 — 批处理、图集、引擎导出与资产审查 | TexForge">
+<meta property="og:description" content="TexForge 功能详解：113 个批处理动作、69 种图集格式、24 种引擎数据格式、法线贴图与通道打包、Mipmap、九宫格、元数据与资产审查，GUI 与 CLI 共用同一管线。">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/zh/features.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="功能 — 批处理、图集、引擎导出与资产审查 | TexForge">
+<meta name="twitter:description" content="TexForge 功能详解：113 个批处理动作、69 种图集格式、24 种引擎数据格式、法线贴图与通道打包、Mipmap、九宫格、元数据与资产审查，GUI 与 CLI 共用同一管线。">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/icon-300.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/zh/"},{"@type":"ListItem","position":2,"name":"Features","item":"https://lijiannan1241.github.io/TexForge/zh/features.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">已在 <b>Microsoft Store</b> 上架 — 支持 Windows 10 / 11，中英双语界面。
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">立即获取 →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../zh/index.html"><img src="../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../zh/index.html">首页</a><a href="../zh/features.html" aria-current="page">功能</a><a href="../zh/faq.html">问答</a><a href="../zh/blog/index.html">博客</a><a href="../zh/download.html">下载</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../zh/features.html" class="active">中文</a><a href="../en/features.html">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="index.html">首页</a> / 功能</div>
+  <h1>功能总览</h1><p>TexForge 把美术资源流程中重复、易错、需要脚本的环节，做成了可配置、可复用、可校验的桌面工具。</p>
+</div></div>
+<section><div class="container prose"><h2 id="f1">批处理动作（113 个）</h2><p>尺寸与画布：缩放、裁剪、旋转、翻转、内边距、画布扩展、锚点对齐。</p><p>画质与格式：重采样、锐化、格式转换、量化、压缩与目标体积控制。</p><p>内容加工：水印、边框、圆角、蒙版、色彩调整与 ICC 转换。</p><p>文件与元数据：重命名、目录结构、EXIF / XMP / IPTC 读写与清理。</p><p>所有动作按顺序叠加执行，单张失败不会中断整批，失败项会在报告中列出并可重跑。</p><h2 id="f2">纹理图集（69 种格式）</h2><p>排布策略：按尺寸、按名称、按分组，支持留白、边缘扩展（extrude）、旋转与裁剪（trim）。</p><p>输出格式：Unity、Godot、Unreal、Cocos2d、Phaser 2/3、PixiJS、Spine、LibGDX、SpriteKit、Starling、Egret、LayaAir、微信小游戏，以及通用 JSON / XML / plist / CSS / CSV。</p><p>约束校验：POT / NPOT、最大尺寸、留白一致性、空区域检测，导出前即可发现踩线项。</p><h2 id="f3">引擎数据格式（24 种）</h2><p>覆盖 Unity、Unreal、Godot、Cocos 与自定义模板五类目录树规划。</p><p>图集描述文件与图片同名同目录生成，直接复制进项目即可被引擎识别。</p><p>自定义模板适合自研引擎或内部规范，字段可裁剪。</p><h2 id="f4">法线贴图与通道打包</h2><p>从高度图生成法线贴图，支持强度与 Y 轴方向（OpenGL / DirectX）切换。</p><p>按 ORM、RMA 等约定把粗糙度、金属度、AO 打包进 RGB 通道，避免逐张手工作业。</p><p>通道顺序可配置，适配 Unity 与 Unreal 的不同习惯。</p><h2 id="f5">Mipmap 与平台限制</h2><p>按 2 的幂生成 Mipmap 链，可选滤镜与是否保留 Alpha。</p><p>内置移动端与桌面端的尺寸上限校验，超限纹理在导出前被标记。</p><p>适合需要同时出多平台包的团队，减少上线前的返工。</p><h2 id="f6">资产审查与报告</h2><p>扫描命名规范、尺寸一致性、重复文件、法线/颜色配对缺失等问题。</p><p>输出 CSV / JSON 报告，可作为 CI 门禁或美术验收依据。</p><p>支持按平台尺寸规格（如移动端 POT 上限）做批量判定。</p></div></section>
+<div class="store-cta">
+      <div><h3>已在 Microsoft Store 上架</h3><p>Windows 10 / 11（x64）直接安装，支持中文与 English 界面。</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../zh/index.html"><img src="../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：批处理、纹理图集、法线贴图与引擎资产导出，一套管线，两种入口。</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="../zh/index.html">首页</a>
+        <a href="../zh/features.html">功能</a>
+        <a href="../zh/download.html">下载</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="../zh/blog/index.html">博客</a>
+        <a href="../zh/faq.html">常见问答</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub 仓库</a>
+      </div>
+      <div>
+        <h4>其他</h4>
+        <a href="../zh/faq.html#privacy">隐私政策</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. 保留所有权利。</span>
+      <span>Microsoft Store 与 Windows 是 Microsoft Corporation 的商标。</span>
+    </div>
+  </div>
+</footer>
+</body></html>

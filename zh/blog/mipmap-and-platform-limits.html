@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mipmap 与平台尺寸限制：移动端纹理不再踩坑 | TexForge 博客</title>
+<meta name="description" content="Mipmap 链如何影响显存与观感、POT 与 NPOT 的取舍、各平台尺寸上限，以及如何在导出前自动校验。">
+<meta name="keywords" content="Mipmap, TexForge, 纹理图集, 批量处理">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/zh/blog/mipmap-and-platform-limits.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/mipmap-and-platform-limits.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/mipmap-and-platform-limits.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="Mipmap 与平台尺寸限制：移动端纹理不再踩坑 | TexForge 博客">
+<meta property="og:description" content="Mipmap 链如何影响显存与观感、POT 与 NPOT 的取舍、各平台尺寸上限，以及如何在导出前自动校验。">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/zh/blog/mipmap-and-platform-limits.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="article:published_time" content="2026-09-30">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mipmap 与平台尺寸限制：移动端纹理不再踩坑 | TexForge 博客">
+<meta name="twitter:description" content="Mipmap 链如何影响显存与观感、POT 与 NPOT 的取舍、各平台尺寸上限，以及如何在导出前自动校验。">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Mipmap 与平台尺寸限制：移动端纹理不再踩坑","description":"Mipmap 链如何影响显存与观感、POT 与 NPOT 的取舍、各平台尺寸上限，以及如何在导出前自动校验。","datePublished":"2026-09-30","dateModified":"2026-09-30","inLanguage":"zh-CN","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/zh/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/zh/blog/mipmap-and-platform-limits.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Mipmap","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/zh/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/zh/blog/index.html"},{"@type":"ListItem","position":3,"name":"Mipmap 与平台尺寸限制：移动端纹理不再踩坑","item":"https://lijiannan1241.github.io/TexForge/zh/blog/mipmap-and-platform-limits.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">已在 <b>Microsoft Store</b> 上架 — 支持 Windows 10 / 11，中英双语界面。
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">立即获取 →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../zh/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../zh/index.html">首页</a><a href="../../zh/features.html">功能</a><a href="../../zh/faq.html">问答</a><a href="../../zh/blog/index.html" aria-current="page">博客</a><a href="../../zh/download.html">下载</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/mipmap-and-platform-limits.html" class="active">中文</a><a href="../../en/blog/mipmap-and-platform-limits.html">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">首页</a> / <a href="index.html">Blog</a> / Mipmap</div>
+  <h1>Mipmap 与平台尺寸限制：移动端纹理不再踩坑</h1>
+  <p>Mipmap 链如何影响显存与观感、POT 与 NPOT 的取舍、各平台尺寸上限，以及如何在导出前自动校验。</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Mipmap</span><span>2026-09-30</span><span>·</span><span>3 分钟阅读</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>核心要点</h3><ul><li>Mipmap 增加约三分之一显存</li><li>压缩格式往往要求 POT</li><li>尺寸校验要前移到导出阶段</li></ul></div>
+<p>一张 2048×2048 的 RGBA 贴图占 16 MB，开了 Mipmap 大约再多三分之一。纹理多了以后，显存和带宽会先于帧率成为瓶颈。Mipmap 与尺寸限制不是「优化项」，而是上线前必须确认的约束。</p>
+<h2>Mipmap 解决什么问题</h2>
+<p>当贴图在屏幕上被缩小显示时，采样频率高于像素频率，会产生摩尔纹与闪烁。Mipmap 预先生成一系列逐级减半的副本，运行时按距离选择合适的层级，既减少闪烁，也降低带宽。</p>
+<p>代价是显存增加约 33%，以及生成时需要处理边缘。对 UI 精灵、文字、需要保持锐利的小图，通常应关闭 Mipmap；对 3D 场景中的大面积贴图，通常应开启。</p>
+<h2>POT 与 NPOT</h2>
+<p>2 的幂尺寸在旧硬件与部分压缩格式上是硬性要求。ETC2、ASTC 等移动端压缩纹理的块划分与 POT 关系密切；某些平台的 Mipmap 生成也要求 POT。即便现代 GPU 支持 NPOT，跨平台发布时仍建议按最严格的平台来。</p>
+<ul><li>移动端：常见最大边长 2048 或 4096，压缩格式常要求 POT。</li><li>桌面端：上限更高，NPOT 通常可用。</li><li>WebGL：受设备与驱动影响，保守取 2048 更稳。</li></ul>
+<h2>显存估算</h2>
+<p>粗略估算公式是宽 × 高 × 每像素字节数。RGBA8 是 4 字节，RGB565 是 2 字节，单通道是 1 字节。开 Mipmap 再乘约 1.33。先把数算出来，比在真机上发现爆显存便宜。</p>
+<h2>把校验前移</h2>
+<p>尺寸超限最理想的发现时机是导出时，而不是打包 APK 或进引擎导入时。TexForge 在生成 Mipmap 与图集时按目标平台规格校验边长、POT 与最大尺寸，超限项直接标记。</p>
+<blockquote>能在导出阶段报出来的错误，不要留到真机测试。</blockquote>
+<h2>实践建议</h2>
+<ol><li>按最低端目标平台设定尺寸上限，其余平台向下兼容。</li><li>UI 与文字类贴图关闭 Mipmap，3D 场景贴图开启。</li><li>压缩格式与 POT 一起决定，不要分开考虑。</li><li>大批量前先算总显存，确认目标设备能承受。</li></ol>
+<h2>小结</h2>
+<p>Mipmap 与尺寸限制是一组权衡：清晰度、显存、兼容性。把它们写进平台规格，由工具在导出时校验，比靠记忆和事后排查可靠得多。</p>
+<div class="post-nav"><a class="prev" href="normal-map-channel-packing.html">← 法线贴图与通道打包：ORM、粗糙度、金属度的正确做法</a><a class="next" href="cli-automation-ci.html">命令行与 CI 集成：把资源流水线接进构建 →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>已在 Microsoft Store 上架</h3><p>Windows 10 / 11（x64）直接安装，支持中文与 English 界面。</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../zh/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：批处理、纹理图集、法线贴图与引擎资产导出，一套管线，两种入口。</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>获取自</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="../../zh/index.html">首页</a>
+        <a href="../../zh/features.html">功能</a>
+        <a href="../../zh/download.html">下载</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="../../zh/blog/index.html">博客</a>
+        <a href="../../zh/faq.html">常见问答</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub 仓库</a>
+      </div>
+      <div>
+        <h4>其他</h4>
+        <a href="../../zh/faq.html#privacy">隐私政策</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. 保留所有权利。</span>
+      <span>Microsoft Store 与 Windows 是 Microsoft Corporation 的商标。</span>
+    </div>
+  </div>
+</footer>
+</body></html>

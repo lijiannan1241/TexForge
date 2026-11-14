@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLI and CI integration: wire your asset pipeline into the build | TexForge Blog</title>
+<meta name="description" content="The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.">
+<meta name="keywords" content="Automation, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/cli-automation-ci.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="CLI and CI integration: wire your asset pipeline into the build | TexForge Blog">
+<meta property="og:description" content="The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-10-07">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CLI and CI integration: wire your asset pipeline into the build | TexForge Blog">
+<meta name="twitter:description" content="The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"CLI and CI integration: wire your asset pipeline into the build","description":"The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.","datePublished":"2026-10-07","dateModified":"2026-10-07","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Automation","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"CLI and CI integration: wire your asset pipeline into the build","item":"https://lijiannan1241.github.io/TexForge/en/blog/cli-automation-ci.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/cli-automation-ci.html">中文</a><a href="../../en/blog/cli-automation-ci.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Automation</div>
+  <h1>CLI and CI integration: wire your asset pipeline into the build</h1>
+  <p>The GUI and CLI share one pipeline. Use texforge-cli, JSON reports and exit codes to make asset processing a verifiable build step.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Automation</span><span>2026-10-07</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Presets tuned in the GUI are reusable from the CLI</li><li>JSON reports work as quality gates</li><li>Exit codes decide whether CI fails</li></ul></div>
+<p>If asset processing only lives in a GUI on someone's laptop, it is not reproducible. CI needs determinism: same input, same command, same output, and a clear failure when something breaks.</p>
+<h2>One pipeline, two entry points</h2>
+<p>TexForge's GUI and CLI share the same actions, atlas parameters and presets. That matters: a preset tuned by an artist can be called directly from a script by a technical artist, with no parameter translation.</p>
+<p>The usual setup commits presets to the repository, has CI run the command-line tool, and produces atlases and descriptors for the engine build.</p>
+<h2>What the CLI can do</h2>
+<ul><li>Run an action sequence over a folder and write to a target directory.</li><li>Generate atlas images and descriptors in a chosen format.</li><li>Export asset audit reports for naming, dimensions, duplicates and pair rules.</li><li>Emit JSON results for downstream scripts.</li></ul>
+<pre><code>texforge-cli --help
+texforge-cli batch --preset ui-slices --input ./art --output ./build/art
+</code></pre>
+<h2>Turn reports into gates</h2>
+<p>The dangerous asset bugs do not throw errors — they just look wrong. A missing sprite or a mis-sized icon still builds fine until QA notices. Feeding audit reports into CI catches these before merge.</p>
+<p>Have CI parse the JSON report and fail by severity: errors fail the build, warnings go to the log, info is recorded. The team defines the rules, but the decision must be automated.</p>
+<h2>Exit codes and idempotence</h2>
+<p>CI trusts exit codes, not the word “Error” in a log. A batch should return non-zero when any item remains failed, so the pipeline stops explicitly.</p>
+<p>It should also be idempotent: running twice on the same input produces identical output. Otherwise every build creates meaningless binary diffs and the repository drowns in noise.</p>
+<h2>Practical advice</h2>
+<ol><li>Commit presets and folder rules together as the asset contract.</li><li>Run a small smoke batch in CI before the full run.</li><li>Archive reports with artifacts to trace which configuration a build used.</li><li>Set timeouts and concurrency limits so asset jobs do not stall build machines.</li></ol>
+<h2>Takeaway</h2>
+<p>Putting asset processing in CI is not mainly about automation. It is about running with the same rules every time — and failing loudly when those rules break.</p>
+<div class="post-nav"><a class="prev" href="mipmap-and-platform-limits.html">← Mipmaps and platform size limits: stop tripping on mobile textures</a><a class="next" href="sprite-sheet-and-nine-patch.html">Sprite sheets and nine-patch: slicing mobile UI the right way →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>

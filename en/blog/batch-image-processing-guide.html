@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batch image processing in practice: configure once, process thousands | TexForge Blog</title>
+<meta name="description" content="How to combine TexForge&#x27;s 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.">
+<meta name="keywords" content="Batch processing, TexForge, texture atlas, batch processing">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
+<link rel="canonical" href="https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html">
+<link rel="alternate" hreflang="zh-CN" href="https://lijiannan1241.github.io/TexForge/zh/blog/batch-image-processing-guide.html">
+<link rel="alternate" hreflang="en" href="https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html">
+<link rel="alternate" hreflang="x-default" href="https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="Batch image processing in practice: configure once, process thousands | TexForge Blog">
+<meta property="og:description" content="How to combine TexForge&#x27;s 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.">
+<meta property="og:url" content="https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html">
+<meta property="og:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="article:published_time" content="2026-09-02">
+<meta property="article:author" content="TexForge">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Batch image processing in practice: configure once, process thousands | TexForge Blog">
+<meta name="twitter:description" content="How to combine TexForge&#x27;s 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.">
+<meta name="twitter:image" content="https://lijiannan1241.github.io/TexForge/assets/img/hero.png">
+<link rel="icon" href="../../assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/img/icon-300.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Batch image processing in practice: configure once, process thousands","description":"How to combine TexForge's 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.","datePublished":"2026-09-02","dateModified":"2026-09-02","inLanguage":"en","author":{"@type":"Organization","name":"TexForge","url":"https://lijiannan1241.github.io/TexForge/en/"},"publisher":{"@type":"Organization","name":"TexForge","logo":{"@type":"ImageObject","url":"https://lijiannan1241.github.io/TexForge/assets/img/icon-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html"},"image":"https://lijiannan1241.github.io/TexForge/assets/img/hero.png","keywords":["Batch processing","TexForge","texture atlas","batch image processing"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://lijiannan1241.github.io/TexForge/en/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://lijiannan1241.github.io/TexForge/en/blog/index.html"},{"@type":"ListItem","position":3,"name":"Batch image processing in practice: configure once, process thousands","item":"https://lijiannan1241.github.io/TexForge/en/blog/batch-image-processing-guide.html"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="container">Now available on <b>Microsoft Store</b> — Windows 10 / 11, Chinese and English UI.
+<a class="topbar-link" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow">Get it now →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main"><a href="../../en/index.html">Home</a><a href="../../en/features.html">Features</a><a href="../../en/faq.html">FAQ</a><a href="../../en/blog/index.html" aria-current="page">Blog</a><a href="../../en/download.html">Download</a></nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="../../zh/blog/batch-image-processing-guide.html">中文</a><a href="../../en/blog/batch-image-processing-guide.html" class="active">EN</a></div>
+      <a class="ms-badge sm" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div class="page-head"><div class="container">
+  <div class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Batch processing</div>
+  <h1>Batch image processing in practice: configure once, process thousands</h1>
+  <p>How to combine TexForge's 113 batch actions into a stable asset pipeline, from action sequences and presets to retrying failed items.</p>
+  <div class="article-meta" style="margin-top:16px"><span class="tag">Batch processing</span><span>2026-09-02</span><span>·</span><span>3 min read</span></div>
+</div></div>
+<section><div class="container"><article class="prose">
+<div class="callout"><h3>Key takeaways</h3><ul><li>Actions stack in order; one failure does not stop the batch</li><li>Presets are the smallest reusable unit for a team</li><li>Result reports make retries precise</li></ul></div>
+<p>Art assets are rarely just a few files. One character can have a dozen animations, several skins and multiple resolution tiers; one UI set can contain hundreds of slices; a single release may require re-exporting every texture. Opening, resizing, saving and renaming by hand is slow and easy to get wrong.</p>
+<h2>Why it pays to get it right once</h2>
+<p>The real value of batch processing is not speed — it is consistency. When dimensions, naming, compression and metadata all come from one configuration, assets become reproducible: another person, another machine, or the same machine three months later produces the same result.</p>
+<p>TexForge turns that configuration into an action sequence stored in a preset. Presets travel with the project and can live in version control as part of the asset spec.</p>
+<h2>How the 113 actions combine</h2>
+<p>Actions run in the order you add them; the output of one becomes the input of the next. A practical order is geometry first, then color and quality, then format and metadata.</p>
+<ul><li>Geometry: resize, crop, rotate, flip, canvas expansion, padding. Fix dimensions first so later steps have predictable costs.</li><li>Quality: resampling, sharpening, quantization, compression. Sharpen after resizing, or downscaling will erase the detail you added.</li><li>Format: target format such as PNG, JPEG or WebP, plus bit depth and alpha.</li><li>Metadata: renaming, folder structure, EXIF / XMP / IPTC writing or stripping.</li></ul>
+<h2>Presets turn configuration into an asset</h2>
+<p>Save the sequence as a preset. From then on, one click in the GUI or one flag on the command line reuses the same logic. Teams usually split presets by purpose: icons, character art, UI slices, store images.</p>
+<blockquote>A preset is good enough when you can hand it to someone else and they produce an identical folder structure and identical files without asking you anything.</blockquote>
+<h2>Failures and retries</h2>
+<p>The worst batch run is the one that dies halfway with no record of what was skipped. TexForge keeps going when a single file fails, records the item and the reason in the report, and lets you retry just those items after fixing the source.</p>
+<h2>Three practical steps</h2>
+<ol><li>Pick 5 to 10 representative images, run the preset, and check dimensions, naming, file size and visual quality.</li><li>Run the full batch, watch duration and failures, and confirm there is enough disk space.</li><li>Archive the report and commit it with the preset so this asset release is documented.</li></ol>
+<h2>Takeaway</h2>
+<p>Batch processing is not a one-off convenience; it turns asset production into a repeatable engineering process. The action sequence provides correctness, the preset provides consistency, and the report provides traceability.</p>
+<div class="post-nav"><a class="next" href="texture-atlas-packing.html">A complete guide to texture atlas packing: padding, trimming, POT and 69 formats →</a></div>
+</article></div></section>
+<div class="store-cta">
+      <div><h3>Available on Microsoft Store</h3><p>Install directly on Windows 10 / 11 (x64). Chinese and English UI included.</p></div>
+      <a class="ms-badge lg" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+    </div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../en/index.html"><img src="../../assets/img/icon-300.png" alt="">TexForge</a>
+        <p>TexForge is a Windows desktop tool for game and digital content teams: batch processing, texture atlases, normal maps and engine-ready exports. One pipeline, two entry points.</p>
+        <a class="ms-badge" href="https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK" target="_blank" rel="noopener nofollow"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0" y="0" width="11" height="11" fill="#f25022"/><rect x="13" y="0" width="11" height="11" fill="#7fba00"/><rect x="0" y="13" width="11" height="11" fill="#00a4ef"/><rect x="13" y="13" width="11" height="11" fill="#ffb900"/></svg><span class="ms-text"><small>Get it from</small><strong>Microsoft Store</strong></span></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="../../en/index.html">Home</a>
+        <a href="../../en/features.html">Features</a>
+        <a href="../../en/download.html">Download</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="../../en/blog/index.html">Blog</a>
+        <a href="../../en/faq.html">FAQ</a>
+        <a href="https://github.com/lijiannan1241/TexForge" target="_blank" rel="noopener">GitHub repository</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="../../en/faq.html#privacy">Privacy policy</a>
+        <a href="mailto:cdljn2022@gmail.com">cdljn2022@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TexForge. All rights reserved.</span>
+      <span>Microsoft Store and Windows are trademarks of Microsoft Corporation.</span>
+    </div>
+  </div>
+</footer>
+</body></html>
