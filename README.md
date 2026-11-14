@@ -126,8 +126,9 @@ vim tools/gen_site.py              # layout and template changes
 # 2. rebuild all pages, sitemap, robots and llms.txt
 python tools/gen_site.py
 
-# 3. optional: regenerate the trailer poster
-python tools/make_trailer_poster.py
+# 3. optional: regenerate the trailer poster and the MP4 trailers
+python tools/make_trailer_poster.py     # 1920x1080 poster used as the video poster
+python tools/make_trailer_video.py      # trailer-zh.mp4 / trailer-en.mp4 + .vtt subtitles
 
 # 4. commit and push — GitHub Pages rebuilds automatically
 git add -A

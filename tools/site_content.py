@@ -1068,7 +1068,7 @@ TRAILER = {
             "命令行：图形界面里保存的预设，用 texforge-cli 可以在脚本或构建服务器上原样执行，退出码与报告便于接入 CI。",
             "结尾：TexForge 已在 Microsoft Store 上架，支持 Windows 10 / 11（x64），安装后可离线使用。",
         ],
-        "note": "演示画面取自软件实际界面，文件名与目录仅用于演示。点击播放会按顺序走完整条流程，也可以按章节跳转或拖动时间轴。",
+        "note": "视频取自软件真实界面（1920 × 1080、30fps、含中文字幕），可按章节跳转或拖动时间轴；画面中的文件名与目录仅用于演示。",
         "watch": "播放预告片",
     },
     "en": {
@@ -1109,7 +1109,7 @@ TRAILER = {
             "CLI: presets saved in the GUI run unchanged through texforge-cli on a build server, with exit codes and reports that fit a CI pipeline.",
             "Outro: TexForge is available on Microsoft Store for Windows 10 / 11 (x64), and works offline after installation.",
         ],
-        "note": "Frames are taken from the real application; file names and folders are for demonstration. Press play to walk the sequence, or jump by chapter and scrub the timeline.",
+        "note": "Footage comes from the real application (1920 × 1080, 30fps, English captions). Jump by chapter or scrub the timeline; file names and folders are for demonstration.",
         "watch": "Watch the trailer",
     },
 }

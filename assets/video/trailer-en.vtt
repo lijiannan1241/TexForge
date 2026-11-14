@@ -1,0 +1,29 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.000
+Intro — What TexForge is, and the four workspaces at a glance.
+
+2
+00:00:05.000 --> 00:00:12.000
+Batch — Stacking actions, reusing presets, progress and result reports.
+
+3
+00:00:12.000 --> 00:00:19.000
+Atlas — Layout, padding, trimming, rotation and descriptor export.
+
+4
+00:00:19.000 --> 00:00:26.000
+Game pixel tools — Normal maps, ORM channel packing, mipmaps and folder planning.
+
+5
+00:00:26.000 --> 00:00:33.000
+Atlas toolbox — Nine-patch slicing, sprite splitting and size validation.
+
+6
+00:00:33.000 --> 00:00:38.000
+CLI automation — The same preset handed to texforge-cli inside a build.
+
+7
+00:00:38.000 --> 00:00:44.000
+Get it — Windows 10 / 11, install from Microsoft Store.

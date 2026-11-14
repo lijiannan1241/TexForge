@@ -103,18 +103,11 @@ def compose(lang: str) -> Image.Image:
         w = d.textbbox((0, 0), txt, font=f)[2]
         d.text(((W - w) / 2, y), txt, font=f, fill=color)
 
-    pf = font(34)
-    tw = d.textbbox((0, 0), badge, font=pf)[2]
-    pad = 30
-    tri_w, tri_h, gap = 20, 24, 14
-    total = pad + tri_w + gap + tw + pad
-    x0, y0 = (W - total) / 2, 918
-    d.rounded_rectangle([x0, y0, x0 + total, y0 + 78], radius=39, fill=(34, 211, 238, 255))
-    cx = x0 + pad
-    cy = y0 + 39
-    d.polygon([(cx, cy - tri_h / 2), (cx, cy + tri_h / 2), (cx + tri_w, cy)],
-              fill=(5, 32, 43))
-    d.text((cx + tri_w + gap, y0 + 20), badge, font=pf, fill=(5, 32, 43))
+    # 时长说明（不用按钮样式，避免与播放器原生控件重复）
+    note = "44 秒 · 含中文字幕" if lang == "zh" else "44 seconds · English captions"
+    nf = font(30, False)
+    nw = d.textbbox((0, 0), note, font=nf)[2]
+    d.text(((W - nw) / 2, 936), note, font=nf, fill=(126, 148, 170))
     return img.convert("RGB")
 
 
