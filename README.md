@@ -19,6 +19,8 @@
 
 TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：把**批量图像处理**与**纹理图集打包**放进同一套管线。图形界面用于调试与预览，命令行用于脚本与 CI，两者共享同一份动作与预设。
 
+> **核心数字**：113 个批处理动作 · 69 种图集图片格式 · 24 种引擎数据格式 · 6 个处理后端 · 完全本地运行（无遥测）。
+
 ### 核心能力
 
 | 能力 | 说明 |
@@ -53,6 +55,8 @@ TexForge 完全在本机运行：**不上传图片、不收集个人信息、不
 ## English
 
 TexForge is a Windows desktop tool for game and digital content teams that puts **batch image processing** and **texture atlas packing** into one pipeline. The GUI is for tuning and previewing; the CLI is for scripts and CI. Both share the same actions and presets.
+
+> **At a glance**: 113 batch actions · 69 atlas image formats · 24 engine data formats · 6 processing backends · runs fully local (no telemetry).
 
 ### Highlights
 
@@ -94,6 +98,27 @@ TexForge runs entirely on your machine: **no image uploads, no personal data col
 | Game pixel tools | Atlas toolbox |
 |---|---|
 | ![Game pixel tools](assets/img/shot-tools.png) | ![Atlas toolbox](assets/img/shot-toolbox.png) |
+
+## Quick Start / 快速开始
+
+**中文**：从安装到打出第一个图集，只需三步。
+
+1. **安装**：从 [Microsoft Store](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK) 安装（Windows 10/11 x64，自动更新，无需管理员权限）。独立安装器见[下载页](https://lijiannan1241.github.io/TexForge/zh/download.html)。
+2. **配置并预览**：打开「图集打包」工作区 → 拖入 sprite 文件夹 → 选目标引擎（如 Unity / Godot）→ 设 padding、trim、多尺寸 → 预览布局与占用率。批处理工作区可把缩放/水印/转换等动作叠加成预设。
+3. **导出**：点 Pack，得到图片 + 引擎描述文件（同名同目录，引擎直接识别）+ 结果报告。预设保存为 JSON，GUI 与 CLI 共用。
+
+```bash
+# CLI 复用同一预设，可直接进 CI
+texforge-cli doctor                       # 环境与能力自检
+texforge-cli pack ./sprites -o ./atlas --max-size 2048 --data json,plist --scales 1,0.5
+texforge-cli pipeline my.tfpipe.json      # 运行 GUI 保存的流水线
+```
+
+**English**: three steps from install to your first atlas.
+
+1. **Install** from [Microsoft Store](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK) (Windows 10/11 x64, auto-updates, no admin rights). Standalone installer on the [download page](https://lijiannan1241.github.io/TexForge/en/download.html).
+2. **Configure & preview**: open the Atlas workspace → drop a sprite folder → pick a target engine (Unity / Godot…) → set padding, trimming and scales → preview layout and occupancy. In the Batch workspace, stack actions (resize / watermark / convert) into a preset.
+3. **Export**: hit Pack to get images + engine descriptor (same name and folder, resolved immediately) + a result report. Presets are JSON files shared by GUI and CLI. The CLI runs the exact same pipeline in CI (see commands above).
 
 ## Repository
 

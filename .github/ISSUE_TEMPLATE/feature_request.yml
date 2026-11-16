@@ -1,0 +1,45 @@
+name: Feature request / 功能建议
+description: Suggest an idea or improvement 提出一个想法或改进
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the use case or pain point, not just the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What would you like TexForge to do?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds or other tools you've tried.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Batch processing
+        - Atlas packing
+        - Engine export
+        - Game pixel tools
+        - CLI / CI
+        - UI / UX
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this hasn't been requested.
+          required: true

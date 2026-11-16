@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question / 使用问题
+    url: https://github.com/lijiannan1241/TexForge/discussions
+    about: Ask questions and discuss usage in GitHub Discussions (Q&A).
+  - name: Documentation / 文档
+    url: https://lijiannan1241.github.io/TexForge/en/faq.html
+    about: Check the FAQ and full documentation first.
+  - name: Email / 邮件
+    url: mailto:cdljn2022@gmail.com
+    about: Private or sensitive reports can be sent by email.

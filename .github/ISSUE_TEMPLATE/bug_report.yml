@@ -1,0 +1,68 @@
+name: Bug report / 问题反馈
+description: Report a reproducible problem 报告一个可复现的问题
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. 感谢你花时间反馈问题。
+        Please fill in the fields below so we can reproduce it quickly.
+  - type: input
+    id: version
+    attributes:
+      label: TexForge version
+      description: Find it in Help → About, or run `texforge-cli --version`.
+      placeholder: "1.3.4"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows 11
+        - Windows 10
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps, including the preset or settings used.
+      placeholder: |
+        1. Open Atlas workspace
+        2. Add folder X
+        3. Set scale 0.5
+        4. Click Pack → error appears
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: Result report / log
+      description: Paste the result report or console output if available.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I can reproduce this with the latest version.
+          required: false
