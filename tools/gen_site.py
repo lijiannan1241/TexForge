@@ -82,9 +82,9 @@ def head(lang: str, depth: int, title: str, desc: str, subpath: str,
 {kw}<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <meta name="theme-color" content="#06131f">
 <link rel="canonical" href="{canon}">
+<link rel="alternate" hreflang="x-default" href="{BASE}">
 <link rel="alternate" hreflang="zh-CN" href="{zh_url}">
 <link rel="alternate" hreflang="en" href="{en_url}">
-<link rel="alternate" hreflang="x-default" href="{en_url}">
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="TexForge">
 <meta property="og:title" content="{html.escape(title)}">
@@ -843,45 +843,188 @@ def build_post(lang: str, p: dict, idx: int) -> str:
 
 
 def build_root() -> str:
+    """Bilingual, content-rich STATIC landing page served at the site root.
+
+    Googlebot fetches /TexForge/ directly to verify and index the URL-prefix
+    property in Search Console. The page must therefore contain real, crawlable
+    HTML content. A JS location.replace() shell is classified as "Crawled -
+    currently not indexed", which is why GSC could not find site content.
+    No JavaScript redirect here. /zh/ and /en/ remain the full language sites.
+    """
+    stats = "".join(
+        f"<div><b>{n}</b><span>{zh} · {en}</span></div>"
+        for n, zh, en in S["stats"]
+    )
+    desc = (
+        "TexForge is a free Windows tool for game developers: batch image "
+        "processing and texture atlas packing — 113 batch actions, 69 atlas "
+        "formats and 24 engine data formats. GUI and CLI share one preset; runs "
+        "100% locally with no uploads or telemetry. "
+        "TexForge 是免费 Windows 游戏开发工具，批量图像处理与纹理图集打包："
+        "113 个批处理动作、69 种图集格式、24 种引擎数据格式；GUI 与 CLI 共用预设，"
+        "完全本地运行，不上传图片、无遥测。"
+    )
+    ld_site = {
+        "@context": "https://schema.org", "@type": "WebSite",
+        "name": "TexForge", "url": BASE, "inLanguage": ["en", "zh-CN"],
+        "description": desc,
+    }
+    ld_app = ld_software("en")
+    ld_app["url"] = BASE
+    ld_app["publisher"]["url"] = BASE
+    lds = "\n".join(
+        '<script type="application/ld+json">'
+        + json.dumps(x, ensure_ascii=False, separators=(",", ":"))
+        + "</script>"
+        for x in (ld_site, ld_app)
+    )
+
+    features = [
+        ("BP", "Batch image processing", "113 actions: resize, crop, watermark, convert, compress and metadata cleanup in one preset.", "批处理图像", "113 个动作：缩放、裁剪、水印、转换、压缩与元数据清理，一个预设搞定。"),
+        ("AT", "Texture atlas packing", "69 atlas image formats with padding, extrusion, trimming, rotation and power-of-two checks.", "纹理图集打包", "69 种图集图片格式，支持间距、边缘扩展、裁剪、旋转与 2 的幂校验。"),
+        ("EX", "Engine export", "24 engine data formats for Unity, Unreal, Godot, Cocos, Phaser, Spine and more.", "引擎导出", "24 种引擎数据格式，覆盖 Unity、Unreal、Godot、Cocos、Phaser、Spine 等。"),
+        ("PT", "Game pixel tools", "Normal maps, ORM/RMA channel packing, mipmaps, platform size limits and folder planning.", "游戏美术工具", "法线贴图、ORM/RMA 通道打包、mipmap、平台尺寸限制与目录规划。"),
+        ("GC", "GUI + CLI, one core", "Tune in the GUI, then run the same preset headlessly in scripts and CI.", "界面与命令行同一内核", "在界面中调好参数，再用同一预设在脚本和 CI 中无人值守运行。"),
+        ("PR", "Local & private", "Runs fully offline — no image uploads, no telemetry, no tracking SDKs. MIT-licensed.", "本地与隐私", "完全离线运行，不上传图片、无遥测、无追踪 SDK。MIT 许可。"),
+    ]
+    feat_cards = "".join(
+        f'<article class="card"><div class="ico">{ico}</div>'
+        f'<h3>{en_t}</h3>'
+        f'<p>{en_d}</p>'
+        f'<p class="zh-note"><b>{zh_t}</b> — {zh_d}</p></article>'
+        for ico, en_t, en_d, zh_t, zh_d in features
+    )
+
     return f"""<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TexForge — 批处理与纹理图集打包工具 | Batch image processor &amp; texture atlas packer</title>
-<meta name="description" content="TexForge: 113 batch actions, 69 atlas formats, 24 engine data formats for Windows. 统一图像批处理与纹理图集打包工具，已在 Microsoft Store 上架。">
-<meta name="robots" content="index,follow">
+<title>TexForge — Batch Image Processor &amp; Texture Atlas Packer for Windows</title>
+<meta name="description" content="{html.escape(desc)}">
+<meta name="keywords" content="TexForge, batch image processing, texture atlas, sprite sheet, normal map, Unity, Godot, Unreal, 批处理, 纹理图集, 游戏美术">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="theme-color" content="#06131f">
 <link rel="canonical" href="{BASE}">
+<link rel="alternate" hreflang="x-default" href="{BASE}">
 <link rel="alternate" hreflang="zh-CN" href="{BASE}zh/">
 <link rel="alternate" hreflang="en" href="{BASE}en/">
-<link rel="alternate" hreflang="x-default" href="{BASE}en/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="TexForge — batch image processor &amp; texture atlas packer">
-<meta property="og:description" content="113 batch actions, 69 atlas formats, 24 engine data formats. Available on Microsoft Store.">
-<meta property="og:image" content="{BASE}assets/img/hero.png">
+<meta property="og:site_name" content="TexForge">
+<meta property="og:title" content="TexForge — Batch Image Processor &amp; Texture Atlas Packer">
+<meta property="og:description" content="113 batch actions, 69 atlas formats, 24 engine formats. GUI + CLI, 100% local, free on Microsoft Store. 免费 Windows 批处理与图集打包工具。">
 <meta property="og:url" content="{BASE}">
+<meta property="og:image" content="{BASE}assets/img/hero.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TexForge — Batch Image Processor &amp; Texture Atlas Packer">
+<meta name="twitter:description" content="113 batch actions, 69 atlas formats, 24 engine formats. GUI + CLI, 100% local.">
+<meta name="twitter:image" content="{BASE}assets/img/hero.png">
 <link rel="icon" href="assets/img/icon-300.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/icon-300.png">
 <link rel="stylesheet" href="assets/css/site.css">
-<script>
-(function () {{
-  var pre = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
-  var lang = pre.toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en';
-  var target = lang + '/index.html';
-  var q = location.search || '';
-  var h = location.hash || '';
-  location.replace(target + q + h);
-}})();
-</script>
-<script type="application/ld+json">{json.dumps(ld_software("en"), ensure_ascii=False)}</script>
-</head>
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+{lds}</head>
 <body>
-<div class="container" style="padding:60px 0">
-  <h1>TexForge</h1>
-  <p>Batch image processor &amp; texture atlas packer for Windows.</p>
-  <p><a href="zh/index.html">中文页面</a> · <a href="en/index.html">English site</a></p>
-  <p>{badge("en", "lg")}</p>
-</div>
+<a class="skip" href="#main">Skip to content / 跳到正文</a>
+<div class="topbar"><div class="container">Free on <b>Microsoft Store</b> — Windows 10 / 11 · 免费上架 Microsoft Store · 中英双语界面
+<a class="topbar-link" href="{STORE}" target="_blank" rel="noopener nofollow">Get it now / 立即获取 →</a></div></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html"><img src="assets/img/icon-300.png" alt="">TexForge</a>
+    <nav class="nav" aria-label="Main">
+      <a href="en/features.html">Features</a>
+      <a href="en/trailer.html">Trailer</a>
+      <a href="en/blog/index.html">Blog</a>
+      <a href="zh/features.html">功能</a>
+      <a href="zh/faq.html">问答</a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-switch"><a href="zh/index.html">中文</a><a href="en/index.html">EN</a></div>
+      {badge("en", "sm")}
+    </div>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow"><span class="bar"></span>Windows · Microsoft Store · 100% local</span>
+      <h1>Turn thousands of images into <em>release-ready</em> assets<br><span class="zh-lead">把成百上千张图片变成可直接发布的游戏素材</span></h1>
+      <p class="lead">Batch processing, texture atlases, normal maps, channel packing, mipmaps, engine folder planning and asset audits — one core, two entry points (GUI + CLI). Runs fully offline, no image uploads.
+      <br><span class="zh-lead">批量处理、纹理图集、法线贴图、通道打包、mipmap、引擎目录规划与资源审计——同一内核，GUI 与 CLI 双入口，完全离线、不上传图片。</span></p>
+      <div class="hero-cta">
+        {badge("en", "lg")}
+        <a class="btn btn-primary" href="en/index.html">Explore English site →</a>
+        <a class="btn btn-ghost" href="zh/index.html">进入中文站 →</a>
+      </div>
+      <div class="hero-stats">{stats}</div>
+    </div>
+    <div class="hero-visual">
+      <img src="assets/img/hero-portrait.png" alt="TexForge batch image processor and texture atlas packer interface" width="720" height="1080">
+      <div class="badge-float"><img src="assets/img/icon-300.png" alt="" width="34" height="34"><div><b>TexForge {S['version']}</b><span>Windows 10 / 11 · Microsoft Store</span></div></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head"><h2>Choose your language / 选择语言</h2><p>Full documentation, guides and blog posts in both languages.</p></div>
+    <div class="grid-2">
+      <article class="card">
+        <div class="ico">EN</div>
+        <h3>English site</h3>
+        <p>Full English documentation: features, trailer, how it works, FAQ, download and 10 in-depth blog posts.</p>
+        <p><a class="btn btn-primary" href="en/index.html">Enter English site →</a></p>
+        <p><a href="en/features.html">Features</a> · <a href="en/faq.html">FAQ</a> · <a href="en/download.html">Download</a> · <a href="en/blog/index.html">Blog</a></p>
+      </article>
+      <article class="card">
+        <div class="ico">中</div>
+        <h3>中文站点</h3>
+        <p>完整中文文档：功能介绍、预告片、工作原理、常见问题、下载入口与 10 篇深度博客文章。</p>
+        <p><a class="btn btn-primary" href="zh/index.html">进入中文站 →</a></p>
+        <p><a href="zh/features.html">功能</a> · <a href="zh/faq.html">问答</a> · <a href="zh/download.html">下载</a> · <a href="zh/blog/index.html">博客</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head"><h2>What it does / 核心能力</h2><p>One pipeline for game asset production. 一套管线搞定游戏素材生产。</p></div>
+    <div class="grid-3">{feat_cards}</div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head"><h2>Screenshots / 界面预览</h2></div>
+    <div class="shots">
+      <figure><img src="assets/img/shot-atlas.png" alt="TexForge texture atlas packing workspace"><figcaption>Texture atlas packing · 图集打包工作区</figcaption></figure>
+      <figure><img src="assets/img/shot-batch.png" alt="TexForge batch image processing workspace"><figcaption>Batch image processing · 批处理工作区</figcaption></figure>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="card store-cta">
+      <h2>Free for game developers / 面向游戏开发者免费提供</h2>
+      <p>TexForge runs entirely on your machine — no account, no upload, no telemetry. Get it from the Microsoft Store.
+      <br>完全在本机运行，无需账号、不上传、无遥测。前往 Microsoft Store 获取。</p>
+      <p>{badge("en", "lg")} <a class="btn btn-ghost" href="en/download.html">More ways to get it / 更多下载方式</a></p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand"><b>TexForge</b><p>Batch image processor &amp; texture atlas packer for Windows. 免费、本地、双语。</p></div>
+    <div><b>English</b><p><a href="en/index.html">Home</a> · <a href="en/features.html">Features</a> · <a href="en/faq.html">FAQ</a> · <a href="en/blog/index.html">Blog</a></p></div>
+    <div><b>中文</b><p><a href="zh/index.html">首页</a> · <a href="zh/features.html">功能</a> · <a href="zh/faq.html">问答</a> · <a href="zh/blog/index.html">博客</a></p></div>
+    <div><b>Project</b><p><a href="{S['repo']}">GitHub</a> · <a href="https://apps.microsoft.com/detail/9p7wpkn0t5cn">Microsoft Store</a> · <a href="mailto:{S['email']}">Contact</a></p></div>
+  </div>
+  <div class="container footer-bottom">MIT License · TexForge {S['version']} · Runs 100% locally, no telemetry.</div>
+</footer>
 </body>
 </html>"""
 
@@ -901,15 +1044,17 @@ def build_sitemap() -> str:
         if "/blog/" in u and u.endswith(".html") and "index" not in u:
             slug = u.rsplit("/", 1)[-1][:-5]
             last = next((p["date"] for p in C.POSTS if p["slug"] == slug), S["updated"])
-        alt = ""
-        if u.startswith("zh/"):
+        if u == "":
+            sub = ""
+        elif u.startswith("zh/") or u.startswith("en/"):
             sub = u[3:]
-            alt = (f'<xhtml:link rel="alternate" hreflang="zh-CN" href="{BASE}zh/{sub}"/>'
-                   f'<xhtml:link rel="alternate" hreflang="en" href="{BASE}en/{sub}"/>')
-        elif u.startswith("en/"):
-            sub = u[3:]
-            alt = (f'<xhtml:link rel="alternate" hreflang="zh-CN" href="{BASE}zh/{sub}"/>'
-                   f'<xhtml:link rel="alternate" hreflang="en" href="{BASE}en/{sub}"/>')
+        else:
+            sub = ""
+        # Every URL in the cluster lists all three: root is the x-default
+        # bilingual landing page, /zh/ and /en/ are the localized versions.
+        alt = (f'<xhtml:link rel="alternate" hreflang="x-default" href="{BASE}"/>'
+               f'<xhtml:link rel="alternate" hreflang="zh-CN" href="{BASE}zh/{sub}"/>'
+               f'<xhtml:link rel="alternate" hreflang="en" href="{BASE}en/{sub}"/>')
         body.append(f"<url><loc>{loc}</loc><lastmod>{last}</lastmod>{alt}</url>")
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '

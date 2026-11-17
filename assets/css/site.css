@@ -441,3 +441,12 @@ details.qa .a p { margin: 0 0 8px; font-size: 14.8px; }
   section { padding: 48px 0; }
   .store-cta { padding: 24px; }
 }
+
+/* ---------- bilingual root landing (x-default) ---------- */
+.zh-lead { display: inline; color: #cbd5e1; font-weight: 400; line-height: 1.6; }
+.hero h1 .zh-lead { color: #e2e8f0; font-size: .58em; letter-spacing: 0; }
+.card .zh-note {
+  margin-top: 12px; padding-top: 11px; border-top: 1px dashed var(--line);
+  font-size: 13px; line-height: 1.65; color: var(--muted);
+}
+.card .zh-note b { color: var(--ink); font-weight: 600; }
