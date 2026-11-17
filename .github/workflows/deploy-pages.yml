@@ -1,0 +1,49 @@
+name: Deploy Pages
+
+# Deploys the static site in this repository to GitHub Pages.
+# The Pages source is configured as "GitHub Actions" (build_type: workflow),
+# so this workflow is the only thing that publishes content. Without it,
+# pushes never rebuild the site and the live URL serves stale files.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow one concurrent deployment; do not cancel in-progress runs.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Repository root holds index.html, zh/, en/, assets/ and all
+          # verification files (.nojekyll is present to bypass Jekyll).
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
