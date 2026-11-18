@@ -1,4 +1,4 @@
-# TexForge
+# TexForge — Texture Atlas Packer & Batch Image Processor for Game Devs (Windows)
 
 **统一图像批处理与纹理图集打包工具** · **Unified batch image processor & texture atlas packer**
 
@@ -9,6 +9,8 @@
 把一整天的贴图返工，压缩成一次点击。TexForge 把**批量图像处理**与**纹理图集打包**合并进同一条管线——界面里调预览，命令行里进 CI，两者共用同一份预设。
 
 Turn a day of sprite busywork into one click. TexForge unifies **batch image processing** and **texture atlas packing** in one pipeline — tune in the GUI, ship via CLI, share the same preset, and keep every image on your machine.
+
+> **TexForge is a Windows texture atlas packer and batch image processor for game developers.** It turns folders of sprites into engine-ready sprite sheets and atlases (Unity, Godot, Unreal, Cocos and more), generates normal maps and packs PBR channels, and runs fully offline with no uploads, no telemetry and no sign-up.
 
 > [官网 · Official site](https://lijiannan1241.github.io/TexForge/) · [中文](https://lijiannan1241.github.io/TexForge/zh/) · [English](https://lijiannan1241.github.io/TexForge/en/) · [下载 Download](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS) · [博客 Blog](https://lijiannan1241.github.io/TexForge/zh/blog/) · [常见问答 FAQ](https://lijiannan1241.github.io/TexForge/zh/faq.html)
 
@@ -29,7 +31,9 @@ Turn a day of sprite busywork into one click. TexForge unifies **batch image pro
 
 ---
 
-## 核心数字 / At a glance
+## 功能特性 / Features
+
+### 核心数字 / At a glance
 
 > **113** 个批处理动作 · **69** 种图集图片格式 · **24** 种引擎数据格式 · **6** 个处理后端 · **100%** 本地运行（无遥测）
 
@@ -46,19 +50,21 @@ Turn a day of sprite busywork into one click. TexForge unifies **batch image pro
 | **四个工作区** | 游戏像素工具 · 批量处理 · 图集工具箱 · 图集打包 |
 | **中英双语界面** | 中文 / English 一键切换，GUI 与 CLI 共享预设 |
 
-TexForge is a Windows desktop tool for game and digital content teams that puts **batch image processing** and **texture atlas packing** into one pipeline. The GUI is for tuning and previewing; the CLI is for scripts and CI. Both share the same actions and presets. Runs fully offline — no uploads, no telemetry.
+### 支持的引擎与格式 / Supported engines & formats
+
+TexForge exports **Unity sprite atlases**, **Godot texture atlases**, Unreal Engine, Cocos Creator, Phaser, PixiJS, Spine, LibGDX, LayaAir, Egret, WeChat mini-game atlases, plus generic JSON / XML / plist / CSS / CSV sprite sheet data. It also works as a **normal map generator** and **offline image processor** for 2D, 2.5D and 3D game assets.
 
 ---
 
 ## 截图 / Screenshots
 
-| 批处理 Batch workspace | 图集打包 Atlas packing |
+| 批处理工作区 Batch image processing | 图集打包 Sprite atlas packing |
 |---|---|
-| ![Batch workspace](assets/img/shot-batch.png) | ![Atlas workspace](assets/img/shot-atlas.png) |
+| ![TexForge batch image processing workspace with stacked actions](assets/img/shot-batch.png) | ![TexForge texture atlas packing workspace previewing a sprite sheet](assets/img/shot-atlas.png) |
 
 | 游戏像素工具 Game pixel tools | 图集工具箱 Atlas toolbox |
 |---|---|
-| ![Game pixel tools](assets/img/shot-tools.png) | ![Atlas toolbox](assets/img/shot-toolbox.png) |
+| ![TexForge game pixel tools for normal maps and channel packing](assets/img/shot-tools.png) | ![TexForge atlas toolbox with engine export formats](assets/img/shot-toolbox.png) |
 
 ---
 
@@ -85,11 +91,47 @@ texforge-cli pipeline my.tfpipe.json      # 运行 GUI 保存的流水线
 
 ---
 
+## 常见问题 / FAQ
+
+### TexForge 会上传图片吗？需要联网或注册账号吗？ / Does TexForge upload images or require an account?
+
+不会。TexForge 完全在本机运行，无上传、无遥测、无账号注册，可在离线环境使用。
+
+No. TexForge runs entirely on your machine — no image uploads, no telemetry, no account, and it works offline.
+
+### TexForge 支持哪些游戏引擎的图集格式？ / Which game engines does it support?
+
+Unity、Godot、Unreal、Cocos、Phaser、PixiJS、Spine、LibGDX、LayaAir、Egret 与微信小游戏等，共 69 种图集图片格式与 24 种引擎数据格式。详见上方「支持的引擎与格式」一节。
+
+### GUI 里调好的预设能在 CI 里复用吗？ / Can I reuse GUI presets in CI?
+
+可以。GUI 与 CLI 共用同一份 JSON 预设 / 流水线文件，用 `texforge-cli pipeline` 即可在脚本和 CI 中运行完全相同的处理。
+
+### 除了打图集，还能做什么？ / What else can it do besides atlas packing?
+
+它还能作为批量图像处理工具（缩放、裁剪、水印、格式转换）、法线贴图生成器、ORM/RMA 通道打包工具和资产审查工具（命名/尺寸/重复/配对检查，输出 CSV/JSON 报告）。
+
+---
+
 ## 隐私 / Privacy
 
 TexForge 完全在本机运行：**不上传图片、不收集个人信息、不包含遥测 / 广告 / 追踪 SDK**。详见[隐私政策](https://lijiannan1241.github.io/TexForge/zh/faq.html#privacy)。
 
 TexForge runs entirely on your machine: **no image uploads, no personal data collection, no telemetry, advertising or tracking SDKs**. See the [privacy policy](https://lijiannan1241.github.io/TexForge/en/faq.html#privacy).
+
+---
+
+## 链接 / Links
+
+- 下载 Download (Microsoft Store): <https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS>
+- 官网 Official site: <https://lijiannan1241.github.io/TexForge/>
+- 中文站 Chinese: <https://lijiannan1241.github.io/TexForge/zh/>
+- 英文站 English: <https://lijiannan1241.github.io/TexForge/en/>
+- 预告片 Trailer: <https://lijiannan1241.github.io/TexForge/zh/trailer.html>
+- 工作原理 How it works: <https://lijiannan1241.github.io/TexForge/zh/how-it-works.html>
+- 博客 Blog: <https://lijiannan1241.github.io/TexForge/zh/blog/>
+- FAQ: <https://lijiannan1241.github.io/TexForge/zh/faq.html>
+- 联系 Contact: cdljn2022@gmail.com
 
 ---
 
@@ -112,7 +154,8 @@ TexForge runs entirely on your machine: **no image uploads, no personal data col
 
 每个页面都带有 Microsoft Store 徽章与下载链接。
 
-### 更新与上传 / How to update
+<details>
+<summary>更新与上传 / How to update（维护者）</summary>
 
 ```bash
 # 1. 编辑内容（不要手改生成的 HTML）
@@ -128,20 +171,8 @@ git commit -m "Update site content"
 git push origin main
 ```
 
----
+</details>
 
-## 链接 / Links
-
-- 下载 Download (Microsoft Store): <https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS>
-- 官网 Official site: <https://lijiannan1241.github.io/TexForge/>
-- 中文站 Chinese: <https://lijiannan1241.github.io/TexForge/zh/>
-- 英文站 English: <https://lijiannan1241.github.io/TexForge/en/>
-- 预告片 Trailer: <https://lijiannan1241.github.io/TexForge/zh/trailer.html>
-- 工作原理 How it works: <https://lijiannan1241.github.io/TexForge/zh/how-it-works.html>
-- 博客 Blog: <https://lijiannan1241.github.io/TexForge/zh/blog/>
-- FAQ: <https://lijiannan1241.github.io/TexForge/zh/faq.html>
-- 联系 Contact: cdljn2022@gmail.com
-
-## License
+## 许可 / License
 
 Licensed under the [Apache License 2.0](LICENSE).
