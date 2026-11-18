@@ -2,178 +2,146 @@
 
 **统一图像批处理与纹理图集打包工具** · **Unified batch image processor & texture atlas packer**
 
-[![Microsoft Store](https://img.shields.io/badge/Microsoft%20Store-Download-0078D4?logo=microsoft&logoColor=white)](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011%20x64-0b2135)](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK)
-[![Version](https://img.shields.io/badge/version-1.3.4-22d3ee)](https://lijiannan1241.github.io/TexForge/zh/download.html)
-[![UI](https://img.shields.io/badge/UI-%E4%B8%AD%E6%96%87%20%7C%20English-fbbf24)](https://lijiannan1241.github.io/TexForge/)
-[![License](https://img.shields.io/badge/license-see%20LICENSE-64748b)](LICENSE)
+[![Get it from Microsoft Store](https://img.shields.io/badge/Get_it_from-Microsoft_Store-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS)
 
-[![Get it from Microsoft Store](https://img.shields.io/badge/Get%20it%20from-Microsoft%20Store-000000?style=for-the-badge&logo=microsoft&logoColor=white)](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK)
+[![Microsoft Store](https://img.shields.io/badge/Microsoft%20Store-Download-0078D4?logo=microsoft&logoColor=white)](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS) [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%2F%2011%20x64-0b2135)](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS) [![Version](https://img.shields.io/badge/version-1.3.4-22d3ee)](https://lijiannan1241.github.io/TexForge/zh/download.html) [![UI](https://img.shields.io/badge/UI-%E4%B8%AD%E6%96%87%20%7C%20English-fbbf24)](https://lijiannan1241.github.io/TexForge/) [![License](https://img.shields.io/badge/license-Apache--2.0-64748b)](LICENSE)
 
-> 已在 Microsoft Store 上架 · Available on Microsoft Store
-> [中文官网](https://lijiannan1241.github.io/TexForge/zh/) · [English site](https://lijiannan1241.github.io/TexForge/en/) · [博客 Blog](https://lijiannan1241.github.io/TexForge/zh/blog/) · [常见问答 FAQ](https://lijiannan1241.github.io/TexForge/zh/faq.html)
+把一整天的贴图返工，压缩成一次点击。TexForge 把**批量图像处理**与**纹理图集打包**合并进同一条管线——界面里调预览，命令行里进 CI，两者共用同一份预设。
+
+Turn a day of sprite busywork into one click. TexForge unifies **batch image processing** and **texture atlas packing** in one pipeline — tune in the GUI, ship via CLI, share the same preset, and keep every image on your machine.
+
+> [官网 · Official site](https://lijiannan1241.github.io/TexForge/) · [中文](https://lijiannan1241.github.io/TexForge/zh/) · [English](https://lijiannan1241.github.io/TexForge/en/) · [下载 Download](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS) · [博客 Blog](https://lijiannan1241.github.io/TexForge/zh/blog/) · [常见问答 FAQ](https://lijiannan1241.github.io/TexForge/zh/faq.html)
 
 ---
 
-## 中文
+## 为什么需要 TexForge / Why TexForge
 
-TexForge 是面向游戏与数字内容团队的 Windows 桌面工具：把**批量图像处理**与**纹理图集打包**放进同一套管线。图形界面用于调试与预览，命令行用于脚本与 CI，两者共享同一份动作与预设。
+游戏美术和独立开发者最常见的真相：**真正拖慢进度的不是画画，而是把画好的图整理进引擎**。TexForge 就是为这件事而生。
 
-> **核心数字**：113 个批处理动作 · 69 种图集图片格式 · 24 种引擎数据格式 · 6 个处理后端 · 完全本地运行（无遥测）。
+| 你遇到的痛点 | 通常怎么做 | TexForge 怎么解决 |
+|---|---|---|
+| 几百张图要缩放、转格式、加水印 | 逐个手动改，或临时拼脚本 | 113 个批处理动作叠加成预设，一次跑完 |
+| 打图集要装好几个软件 | 批处理用一个、打包用一个、导数据再换一个 | 4 个工作区 + 6 个处理后端，全在一个程序里 |
+| Unity / Godot / Unreal / Cocos 格式不通 | 每个引擎重新导一遍 | 69 种图集格式 + 24 种引擎数据格式，一次配置多端导出 |
+| ORM / RMA 通道顺序、法线 Y 轴老出错 | 材质在引擎里发灰，来回返工 | 一键通道打包、法线 Y 轴切换、尺寸与 Mipmap 校验 |
+| 在线工具要上传素材 | 商业或未发布素材不敢传云端 | 完全本地运行，无上传、无遥测、无广告追踪 |
+| 美术调好的参数进不了 CI | 手动重复操作，容易漏 | GUI 与 CLI 共用 JSON 预设 / 流水线，脚本与 CI 直接复用 |
 
-### 核心能力
+---
 
-| 能力 | 说明 |
+## 核心数字 / At a glance
+
+> **113** 个批处理动作 · **69** 种图集图片格式 · **24** 种引擎数据格式 · **6** 个处理后端 · **100%** 本地运行（无遥测）
+
+### 核心能力 / Highlights
+
+| 能力 Capability | 说明 Details |
 |---|---|
 | **113 个批处理动作** | 缩放、裁剪、旋转、水印、格式转换、压缩、元数据读写，按顺序叠加执行 |
-| **69 种图集图片格式** | Unity、Godot、Unreal、Cocos、Phaser、PixiJS、Spine、LibGDX、Egret、LayaAir、微信小游戏及通用 JSON/XML/plist/CSS/CSV |
+| **69 种图集图片格式** | Unity、Godot、Unreal、Cocos、Phaser、PixiJS、Spine、LibGDX、Egret、LayaAir、微信小游戏，以及通用 JSON/XML/plist/CSS/CSV |
 | **24 种引擎数据格式** | 图集描述文件与引擎目录树（Unity / Unreal / Godot / Cocos / 自定义） |
 | **法线贴图与通道打包** | 高度图生成法线、ORM / RMA 通道打包、Y 轴方向切换 |
-| **Mipmap 与平台限制** | 生成 Mipmap 链并按移动端 / 桌面端尺寸上限校验 |
+| **Mipmap 与平台限制** | 生成 Mipmap 链，并按移动端 / 桌面端尺寸上限校验 |
 | **资产审查** | 命名、尺寸、重复文件、配对缺失检查，输出 CSV / JSON 报告 |
 | **四个工作区** | 游戏像素工具 · 批量处理 · 图集工具箱 · 图集打包 |
+| **中英双语界面** | 中文 / English 一键切换，GUI 与 CLI 共享预设 |
 
-### 安装
-
-从 [Microsoft Store](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK) 安装，支持 Windows 10 / 11（x64）与自动更新。
-
-### 命令行
-
-安装包内含 `texforge-cli`，与图形界面共享预设：
-
-```bash
-texforge-cli --help
-texforge-cli batch --preset ui-slices --input ./art --output ./build/art
-```
-
-### 隐私
-
-TexForge 完全在本机运行：**不上传图片、不收集个人信息、不包含遥测 / 广告 / 追踪 SDK**。详见[隐私政策](https://lijiannan1241.github.io/TexForge/zh/faq.html#privacy)。
+TexForge is a Windows desktop tool for game and digital content teams that puts **batch image processing** and **texture atlas packing** into one pipeline. The GUI is for tuning and previewing; the CLI is for scripts and CI. Both share the same actions and presets. Runs fully offline — no uploads, no telemetry.
 
 ---
 
-## English
+## 截图 / Screenshots
 
-TexForge is a Windows desktop tool for game and digital content teams that puts **batch image processing** and **texture atlas packing** into one pipeline. The GUI is for tuning and previewing; the CLI is for scripts and CI. Both share the same actions and presets.
-
-> **At a glance**: 113 batch actions · 69 atlas image formats · 24 engine data formats · 6 processing backends · runs fully local (no telemetry).
-
-### Highlights
-
-| Capability | Details |
-|---|---|
-| **113 batch actions** | Resize, crop, rotate, watermark, convert, compress, edit metadata — stacked and run in order |
-| **69 atlas formats** | Unity, Godot, Unreal, Cocos, Phaser, PixiJS, Spine, LibGDX, Egret, LayaAir, WeChat mini games, plus generic JSON/XML/plist/CSS/CSV |
-| **24 engine data formats** | Atlas descriptors and folder trees for Unity / Unreal / Godot / Cocos / custom |
-| **Normal maps & channel packing** | Height-to-normal generation, ORM / RMA packing, Y-axis switch |
-| **Mipmaps & platform limits** | Mip chain generation with mobile and desktop size validation |
-| **Asset audits** | Naming, dimensions, duplicates and missing pairs, with CSV / JSON reports |
-| **Four workspaces** | Game pixel tools · Batch · Atlas toolbox · Atlas |
-
-### Install
-
-Get it from [Microsoft Store](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK) for Windows 10 / 11 (x64), with automatic updates.
-
-### CLI
-
-The package ships `texforge-cli`, sharing presets with the GUI:
-
-```bash
-texforge-cli --help
-texforge-cli batch --preset ui-slices --input ./art --output ./build/art
-```
-
-### Privacy
-
-TexForge runs entirely on your machine: **no image uploads, no personal data collection, no telemetry, advertising or tracking SDKs**. See the [privacy policy](https://lijiannan1241.github.io/TexForge/en/faq.html#privacy).
-
----
-
-## Screenshots
-
-| Batch workspace | Atlas packing |
+| 批处理 Batch workspace | 图集打包 Atlas packing |
 |---|---|
 | ![Batch workspace](assets/img/shot-batch.png) | ![Atlas workspace](assets/img/shot-atlas.png) |
 
-| Game pixel tools | Atlas toolbox |
+| 游戏像素工具 Game pixel tools | 图集工具箱 Atlas toolbox |
 |---|---|
 | ![Game pixel tools](assets/img/shot-tools.png) | ![Atlas toolbox](assets/img/shot-toolbox.png) |
 
-## Quick Start / 快速开始
+---
+
+## 快速开始 / Quick Start
 
 **中文**：从安装到打出第一个图集，只需三步。
 
-1. **安装**：从 [Microsoft Store](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK) 安装（Windows 10/11 x64，自动更新，无需管理员权限）。独立安装器见[下载页](https://lijiannan1241.github.io/TexForge/zh/download.html)。
+1. **安装**：从 [Microsoft Store](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS) 安装（Windows 10/11 x64，自动更新，无需管理员权限）。独立安装器见[下载页](https://lijiannan1241.github.io/TexForge/zh/download.html)。
 2. **配置并预览**：打开「图集打包」工作区 → 拖入 sprite 文件夹 → 选目标引擎（如 Unity / Godot）→ 设 padding、trim、多尺寸 → 预览布局与占用率。批处理工作区可把缩放/水印/转换等动作叠加成预设。
 3. **导出**：点 Pack，得到图片 + 引擎描述文件（同名同目录，引擎直接识别）+ 结果报告。预设保存为 JSON，GUI 与 CLI 共用。
 
 ```bash
-# CLI 复用同一预设，可直接进 CI
 texforge-cli doctor                       # 环境与能力自检
+texforge-cli batch --preset ui-slices --input ./art --output ./build/art
 texforge-cli pack ./sprites -o ./atlas --max-size 2048 --data json,plist --scales 1,0.5
 texforge-cli pipeline my.tfpipe.json      # 运行 GUI 保存的流水线
 ```
 
 **English**: three steps from install to your first atlas.
 
-1. **Install** from [Microsoft Store](https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK) (Windows 10/11 x64, auto-updates, no admin rights). Standalone installer on the [download page](https://lijiannan1241.github.io/TexForge/en/download.html).
+1. **Install** from [Microsoft Store](https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS) (Windows 10/11 x64, auto-updates, no admin rights). Standalone installer on the [download page](https://lijiannan1241.github.io/TexForge/en/download.html).
 2. **Configure & preview**: open the Atlas workspace → drop a sprite folder → pick a target engine (Unity / Godot…) → set padding, trimming and scales → preview layout and occupancy. In the Batch workspace, stack actions (resize / watermark / convert) into a preset.
-3. **Export**: hit Pack to get images + engine descriptor (same name and folder, resolved immediately) + a result report. Presets are JSON files shared by GUI and CLI. The CLI runs the exact same pipeline in CI (see commands above).
+3. **Export**: hit Pack to get images + engine descriptor (same name and folder, resolved immediately) + a result report. Presets are JSON files shared by GUI and CLI; the CLI runs the exact same pipeline in CI.
 
-## Repository
+---
 
-This repository hosts the official product site published with GitHub Pages:
+## 隐私 / Privacy
 
-- Site source: `index.html`, `zh/`, `en/`, `assets/`, `sitemap.xml`, `robots.txt`, `llms.txt`
-- Generator: `tools/gen_site.py` + `tools/site_content.py` (run `python tools/gen_site.py` to rebuild)
+TexForge 完全在本机运行：**不上传图片、不收集个人信息、不包含遥测 / 广告 / 追踪 SDK**。详见[隐私政策](https://lijiannan1241.github.io/TexForge/zh/faq.html#privacy)。
 
-## Site pages
+TexForge runs entirely on your machine: **no image uploads, no personal data collection, no telemetry, advertising or tracking SDKs**. See the [privacy policy](https://lijiannan1241.github.io/TexForge/en/faq.html#privacy).
 
-| Page | 中文 | English |
+---
+
+## 关于本仓库 / About this repository
+
+这个仓库托管用 GitHub Pages 发布的**官方产品网站**：
+
+- 站点源码：`index.html`、`zh/`、`en/`、`assets/`、`sitemap.xml`、`robots.txt`、`llms.txt`
+- 生成器：`tools/gen_site.py` + `tools/site_content.py`（运行 `python tools/gen_site.py` 重建）
+
+| 页面 Page | 中文 | English |
 |---|---|---|
-| Home | `zh/index.html` | `en/index.html` |
-| Features | `zh/features.html` | `en/features.html` |
-| Trailer | `zh/trailer.html` | `en/trailer.html` |
-| How it works | `zh/how-it-works.html` | `en/how-it-works.html` |
+| 首页 Home | `zh/index.html` | `en/index.html` |
+| 功能 Features | `zh/features.html` | `en/features.html` |
+| 预告片 Trailer | `zh/trailer.html` | `en/trailer.html` |
+| 工作原理 How it works | `zh/how-it-works.html` | `en/how-it-works.html` |
 | FAQ | `zh/faq.html` | `en/faq.html` |
-| Download | `zh/download.html` | `en/download.html` |
-| Blog | `zh/blog/` | `en/blog/` |
+| 下载 Download | `zh/download.html` | `en/download.html` |
+| 博客 Blog | `zh/blog/` | `en/blog/` |
 
-Every page carries the Microsoft Store badge and purchase link (top bar, header, in-page CTA, footer).
+每个页面都带有 Microsoft Store 徽章与下载链接。
 
-## How to update and upload
+### 更新与上传 / How to update
 
 ```bash
-# 1. edit content (never edit the generated HTML by hand)
-vim tools/site_content.py          # text, FAQ, trailer chapters, feature copy
-vim tools/gen_site.py              # layout and template changes
+# 1. 编辑内容（不要手改生成的 HTML）
+#    tools/site_content.py  文案 / FAQ / 预告片章节
+#    tools/gen_site.py      布局与模板
 
-# 2. rebuild all pages, sitemap, robots and llms.txt
+# 2. 重建所有页面、sitemap、robots、llms.txt
 python tools/gen_site.py
 
-# 3. optional: regenerate the trailer poster and the MP4 trailers
-python tools/make_trailer_poster.py     # 1920x1080 poster used as the video poster
-python tools/make_trailer_video.py      # trailer-zh.mp4 / trailer-en.mp4 + .vtt subtitles
-
-# 4. commit and push — GitHub Pages rebuilds automatically
+# 3. 提交推送，GitHub Pages 自动重新构建
 git add -A
 git commit -m "Update site content"
 git push origin main
 ```
 
-Pages settings: branch `main`, folder `/ (root)`. A push usually goes live in under a minute; `sitemap.xml` and `llms.txt` are regenerated by the same script.
+---
 
-## Links
+## 链接 / Links
 
-- Microsoft Store: <https://apps.microsoft.com/detail/9p7wpkn0t5cn?cid=DevShareMCLPCS&hl=zh-CN&gl=HK>
-- Chinese site: <https://lijiannan1241.github.io/TexForge/zh/>
-- English site: <https://lijiannan1241.github.io/TexForge/en/>
-- Trailer: <https://lijiannan1241.github.io/TexForge/zh/trailer.html>
-- How it works: <https://lijiannan1241.github.io/TexForge/zh/how-it-works.html>
-- Blog: <https://lijiannan1241.github.io/TexForge/zh/blog/>
+- 下载 Download (Microsoft Store): <https://apps.microsoft.com/store/detail/9P7WPKN0T5CN?cid=DevShareMCLPCS>
+- 官网 Official site: <https://lijiannan1241.github.io/TexForge/>
+- 中文站 Chinese: <https://lijiannan1241.github.io/TexForge/zh/>
+- 英文站 English: <https://lijiannan1241.github.io/TexForge/en/>
+- 预告片 Trailer: <https://lijiannan1241.github.io/TexForge/zh/trailer.html>
+- 工作原理 How it works: <https://lijiannan1241.github.io/TexForge/zh/how-it-works.html>
+- 博客 Blog: <https://lijiannan1241.github.io/TexForge/zh/blog/>
 - FAQ: <https://lijiannan1241.github.io/TexForge/zh/faq.html>
-- Contact: cdljn2022@gmail.com
+- 联系 Contact: cdljn2022@gmail.com
 
 ## License
 
-See [LICENSE](LICENSE).
+Licensed under the [Apache License 2.0](LICENSE).
