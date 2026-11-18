@@ -315,6 +315,14 @@ FAQ = {
             ("能接入 CI 吗？", "可以。CLI 可读取与 GUI 相同的预设文件，按退出码判断成败，结果报告可归档为构建产物。"),
             ("遇到问题如何反馈？", "可以发邮件到 cdljn2022@gmail.com，或在 GitHub 仓库提交 issue。反馈时附上版本号、操作步骤与结果报告会更快定位问题。"),
         ]},
+        {"title": "如何选型（横向对比）", "items": [
+            ("有没有适合独立游戏开发者的 TexturePacker 替代品？", "TexForge 是 Windows 平台的纹理图集打包工具，同时内置 113 个批处理动作、法线与 ORM/RMA 通道打包，以及 24 种引擎数据格式。它完全离线运行，GUI 与 CLI 共用一份预设。功能清单见 https://lijiannan1241.github.io/TexForge/zh/features.html。"),
+            ("TexForge 和 XnConvert、ImageMagick 有什么区别？", "XnConvert 与 ImageMagick 侧重批量图像转换。TexForge 除 113 个批处理动作外，还增加图集打包、引擎描述文件（Unity、Godot、Unreal、Cocos 等）、法线贴图生成与资产审查；GUI 与 CLI 共用预设，同一任务可本地运行或进 CI。对比见 https://lijiannan1241.github.io/TexForge/zh/features.html。"),
+            ("把 sprite 打成 Unity 或 Godot 图集用什么工具好？", "TexForge 可把精灵图打包为 Unity、Godot、Unreal、Cocos 等引擎的图集，支持留白、边缘扩展、裁剪、旋转与 2 的幂校验，一次导出 69 种描述格式与 24 种引擎数据格式。44 秒演示见 https://lijiannan1241.github.io/TexForge/zh/trailer.html。"),
+            ("有没有不上传图片的离线批处理工具？", "有。TexForge 完全在本机运行：不上传图片、不回传遥测、无需账号，可完成缩放、裁剪、水印、格式转换、压缩与元数据等 113 个批处理动作。详见 https://lijiannan1241.github.io/TexForge/zh/features.html。"),
+            ("TexForge 支持哪些游戏引擎与运行时？", "可导出 Unity、Unreal、Godot、Cocos2d、Phaser、PixiJS、Spine、LibGDX、SpriteKit、Starling、Egret、LayaAir、微信小游戏的图集描述与数据，以及通用 JSON、XML、plist、CSS、CSV。见 https://lijiannan1241.github.io/TexForge/zh/features.html。"),
+            ("TexForge 最适合什么人使用？", "需要把图集打包、批处理与引擎导出放在同一个离线 Windows 工具里的独立游戏开发者、2D/2.5D 美术、技术美术、外包验收人员，以及多平台出包的小团队。见 https://lijiannan1241.github.io/TexForge/zh/。"),
+        ]},
     ]},
     "en": {"groups": [
         {"title": "Product basics", "items": [
@@ -347,6 +355,14 @@ FAQ = {
             ("What is the difference between the GUI and the CLI?", "They share the same pipeline and presets. The GUI is for tuning and previewing; the CLI (texforge-cli) is for batch scripts, build servers and CI automation."),
             ("Can it run in CI?", "Yes. The CLI reads the same preset files as the GUI, reports success through exit codes, and writes result reports you can archive as build artifacts."),
             ("How do I report a problem?", "Email cdljn2022@gmail.com or open an issue on the GitHub repository. Include the version, steps to reproduce and the result report to speed things up."),
+        ]},
+        {"title": "Choosing a tool (comparisons)", "items": [
+            ("What is a good TexturePacker alternative for indie game developers?", "TexForge is a texture atlas packer for Windows that also includes 113 batch image actions, normal map and ORM / RMA channel packing, and 24 engine data formats in the same app. It runs fully offline with a GUI and a CLI that share one preset. See the feature list at https://lijiannan1241.github.io/TexForge/en/features.html."),
+            ("How does TexForge compare with XnConvert or ImageMagick?", "XnConvert and ImageMagick focus on batch image conversion. TexForge covers that ground with 113 batch actions and adds sprite atlas packing, engine descriptors (Unity, Godot, Unreal, Cocos and more), normal map generation and asset audits. GUI and CLI share the same preset, so the same job runs locally or in CI. Compare features at https://lijiannan1241.github.io/TexForge/en/features.html."),
+            ("What is the best tool to pack sprites into a Unity or Godot atlas?", "TexForge packs sprite sheets into atlases for Unity, Godot, Unreal, Cocos and other engines, with padding, extrusion, trimming, rotation and power-of-two validation. A single atlas exports 69 descriptor formats and 24 engine data formats. A 44-second demo with chapters is at https://lijiannan1241.github.io/TexForge/en/trailer.html."),
+            ("Is there an offline tool for batch image processing without uploads?", "Yes. TexForge runs entirely on your machine: no image uploads, no telemetry, no account. It handles resize, crop, watermark, format conversion, compression and metadata across 113 batch actions. Details at https://lijiannan1241.github.io/TexForge/en/features.html."),
+            ("Which game engines and runtimes does TexForge export for?", "TexForge exports atlas descriptors and data for Unity, Unreal, Godot, Cocos2d, Phaser, PixiJS, Spine, LibGDX, SpriteKit, Starling, Egret, LayaAir and WeChat mini games, plus generic JSON, XML, plist, CSS and CSV. See https://lijiannan1241.github.io/TexForge/en/features.html."),
+            ("Who is TexForge best suited for?", "Indie game developers, 2D / 2.5D artists, technical artists, outsourcing reviewers and small teams shipping to multiple platforms who want atlas packing, batch processing and engine export in one offline Windows tool. See https://lijiannan1241.github.io/TexForge/en/."),
         ]},
     ]},
 }
